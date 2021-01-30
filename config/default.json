@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "mongoUri" : "mongodb+srv://root:root@cluster0.fjulk.mongodb.net/app?retryWrites=true&w=majority",
+  "jwtSecretKey": "secretkeytok"
+}
