@@ -1,30 +1,14 @@
 import React, {useEffect} from 'react'
-
 import InfocardContainer from "../Infocard/InfocardContainer";
 import PaginationContainer from "../Pagination/PaginationContainer";
 import {Loader} from "../Loader/Loader";
-import {getBookDataAction} from "../../action/Actions";
 
 export const Books = (props) => {
-    const {
-        booksTotalPagesAC,
-        getBooks,
-        getLoader,
-        getPageNum,
-        loaderAC,
-        setBookDataAC
-    } = props
-
+    const {getPageNum, getBookThunk, getLoader, getBooks} = props
     const page = getPageNum()
     useEffect(() => {
-        loaderAC(true)
-        getBookDataAction(page).then(data => {
-            setBookDataAC(data.books)
-            booksTotalPagesAC(data.pageCount)
-            loaderAC(false)
-        })
-    }, [page, setBookDataAC, booksTotalPagesAC, loaderAC])
-
+        getBookThunk(page)
+    }, [page, getBookThunk])
 
     return (
         <>

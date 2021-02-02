@@ -9,7 +9,7 @@ const Serial = require('../models/Ser')
 router.post(
 '/setFavorite',
 async (req, res) => {
-    const item = req.body
+    const item = req.body.body
 
     try {
         const id = Math.ceil(Math.random(100) * 1000000)
@@ -52,7 +52,7 @@ async (req, res) => {
 router.post(
 '/deleteFavorite',
 async (req, res) => {
-    const itemId = req.body.id
+    const itemId = req.body.body.id
 
     try {
         await Favorite.deleteOne({_id: itemId})
@@ -79,7 +79,7 @@ async (req, res) => {
     const startIndex = (page - 1) * limit
 
     try {
-        const favorites = await Favorite.find().limit(limit).skip(startIndex).exec()
+        const favorites = await Favorite.find().sort('-date').limit(limit).skip(startIndex).exec()
         const pageCount = Math.ceil(await Favorite.find().countDocuments().exec() / limit)
 
         res.json({favorites, pageCount})

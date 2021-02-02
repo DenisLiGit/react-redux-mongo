@@ -1,7 +1,6 @@
 import {Favorites} from "./Favorites";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {actionSetFavorites, favoritesTotalPagesAC, favoritesUpdate} from "../../redux/favoritesReducer";
+import {getFavoriteThunk} from "../../redux/favoritesReducer";
 
 const mapStateToProps = (state) => {
     return {
@@ -19,10 +18,7 @@ const mapStateToProps = (state) => {
 }
 
 const FavoritesContainer = connect(mapStateToProps, {
-    actionSetFavorites,
-    favoritesTotalPagesAC,
-    loaderAC,
-    favoritesUpdate
+    getFavoriteThunk
 })(Favorites);
 
 export default FavoritesContainer;

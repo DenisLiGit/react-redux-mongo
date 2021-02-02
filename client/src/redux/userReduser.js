@@ -1,3 +1,5 @@
+import {ApiData} from "../api/Api";
+
 const USER_LOGIN = 'USER-LOGIN'
 const USER_LOGOUT = 'USER-LOGOUT'
 const USER_EMAIL = 'USER-EMAIL'
@@ -39,7 +41,7 @@ const userReduser = (store = initialState, action) => {
 
             }
         case USER_LOGOUT:
-            // localStorage.removeItem(action.storageName)
+            // localStorage.removeItem(api.storageName)
             return {
                 ...store,
                 userInfo: {
@@ -78,5 +80,19 @@ export const logUserOut = () => ({
 export const userloading = (value) => ({
     type: USER_LOADING, value
 })
+
+export const loginUserThunk = (useInfo) => (dispatch) => {
+    console.log(1)
+    dispatch(userloading(true))
+    ApiData.loginUserAction(useInfo).then(data => {
+        console.log(data)
+        dispatch(logUserIn(data))
+        dispatch(userloading(false))
+    })
+}
+
+export const registerUserThunk = (userInfo) => (dispatch) => {
+    ApiData.registerUserAction(userInfo)
+}
 
 export default userReduser

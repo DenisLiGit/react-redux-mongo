@@ -1,7 +1,8 @@
 import {Serials} from "./Serials";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {serialsTotalPagesAC, setSerialDataAC} from "../../redux/serialsReducer";
+import {getSerialThunk} from "../../redux/serialsReducer";
+import {compose} from "redux";
+import AuthRedirect from "../../Hoc/AuthRedirect";
 
 const mapStateToProps = (state) => {
     return {
@@ -13,14 +14,12 @@ const mapStateToProps = (state) => {
         },
         getLoader: () => {
             return state.contentReducer.loader
-        }
+        },
+        isAuthenticated: state.userReduser.userInfo.isAuthenticated
     }
 }
 
-const SerialContaimer = connect(mapStateToProps, {
-    setSerialDataAC,
-    serialsTotalPagesAC,
-    loaderAC
-})(Serials)
-
-export default SerialContaimer
+export default compose(
+    connect(mapStateToProps, {getSerialThunk}),
+    AuthRedirect
+)(Serials)

@@ -1,7 +1,8 @@
 import {Games} from "./Games";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {gamesTotalPagesAC, setGameDataAC} from "../../redux/gamesReducer";
+import {getGameThunk} from "../../redux/gamesReducer";
+import {compose} from "redux";
+import AuthRedirect from "../../Hoc/AuthRedirect";
 
 const mapStateToProps = (state) => {
     return {
@@ -13,14 +14,12 @@ const mapStateToProps = (state) => {
         },
         getLoader: () => {
             return state.contentReducer.loader
-        }
+        },
+        isAuthenticated: state.userReduser.userInfo.isAuthenticated
     }
 }
 
-const GameContaimer = connect(mapStateToProps, {
-    setGameDataAC,
-    gamesTotalPagesAC,
-    loaderAC
-})(Games)
-
-export default GameContaimer
+export default compose(
+    connect(mapStateToProps, {getGameThunk}),
+    AuthRedirect
+)(Games);

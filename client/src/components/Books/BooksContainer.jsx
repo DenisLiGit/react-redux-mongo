@@ -1,7 +1,8 @@
 import {Books} from "./Books";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {booksTotalPagesAC, setBookDataAC} from "../../redux/booksReducer";
+import {getBookThunk} from "../../redux/booksReducer";
+import AuthRedirect from '../../Hoc/AuthRedirect'
+import {compose} from "redux";
 
 const mapStateToProps = (state) => {
     return {
@@ -13,14 +14,12 @@ const mapStateToProps = (state) => {
         },
         getLoader: () => {
             return state.contentReducer.loader
-        }
+        },
+        isAuthenticated: state.userReduser.userInfo.isAuthenticated
     }
 }
 
-const BooksContainer = connect(mapStateToProps, {
-    setBookDataAC,
-    booksTotalPagesAC,
-    loaderAC
-})(Books);
-
-export default BooksContainer;
+export default compose(
+    connect(mapStateToProps, {getBookThunk}),
+    AuthRedirect
+)(Books);

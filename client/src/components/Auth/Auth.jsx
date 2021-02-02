@@ -7,8 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import deepOrange from "@material-ui/core/colors/deepOrange";
 import Button from "@material-ui/core/Button";
-import {userloading} from "../../redux/userReduser";
-import {loginUserAction, registerUserAction} from "../../action/Actions";
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -41,20 +39,17 @@ export const Auth = (props) => {
     const {
         userEmail,
         userPassword,
-        logUserIn
+        loginUserThunk,
+        registerUserThunk
     } = props
 
     const userLogin = (useInfo) => {
-        userloading(true)
-        loginUserAction(useInfo).then(data => {
-            logUserIn(data)
-            userloading(false)
-            props.history.push('/')
-        })
+        loginUserThunk(useInfo)
+        props.history.push('/')
     }
 
     const userRegister = (useInfo) => {
-        registerUserAction(useInfo)
+        registerUserThunk(useInfo)
     }
 
     return (

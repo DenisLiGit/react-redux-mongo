@@ -1,6 +1,6 @@
 import {Infocard} from "./Infocard";
 import {connect} from "react-redux";
-import {favoritesUpdate} from "../../redux/favoritesReducer";
+import {deleteFavoriteThunk, setFavoriteThunk} from "../../redux/favoritesReducer";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const InfocardContainer = connect(mapStateToProps, {
-    favoritesUpdate
+    deleteFavoriteThunk, setFavoriteThunk
 })(Infocard)
 
 export default InfocardContainer

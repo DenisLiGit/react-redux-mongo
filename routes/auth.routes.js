@@ -15,7 +15,7 @@ router.post(
 ],
 async (req, res) => {
     try {
-        const errors = validationResult(req)
+        const errors = validationResult(req.body)
 
         if(!errors.isEmpty()) {
             return res.status(400).json({
@@ -23,7 +23,7 @@ async (req, res) => {
                 message: 'eorror'
             })
         }
-        const {email, password} = req.body
+        const {email, password} = req.body.body
         const candidate = await User.findOne({email})
         if (candidate) {
             return res.status(400).json({message: 'user already exist'})
@@ -49,8 +49,7 @@ router.post(
 ],
 async (req, res) => {
     try {
-    const errors = validationResult(req)
-
+    const errors = validationResult(req.body.body)
         if(!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
@@ -58,25 +57,27 @@ async (req, res) => {
             })
         }
 
-        const {email, password} = req.body
+        const {email, password} = req.body.body
         const user = await User.findOne({email})
 
+        console.log(user)
         if(!user) {
             return res.status(400).json({message: 'nor exist user'})
         }
 
+        console.log(1)
         const passMatch = await bcrypt.compare(password, user.password)
 
         if(!passMatch) {
             return res.status(400).json({message: 'pass not correct'})
         }
-
+console.log(2)
         const token = jwt.sign(
             { userId: user.id },
             config.get("jwtSecretKey"),
             { expiresIn: '1h' }
         )
-
+console.log(3)
         res.json({ token, userId: user.id })
     } catch (e) {
         res.status(500).json({ message: 'error custom'})

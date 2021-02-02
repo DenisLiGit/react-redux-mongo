@@ -1,3 +1,6 @@
+import {ApiData} from "../api/Api";
+import {loaderAC} from "./contentReducer";
+
 const CREATE_CUSTOM_BOOK = 'CREATE_CUSTOM_BOOK'
 const CLEAR_CUSTOM_BOOK = 'CLEAR_CUSTOM_BOOK'
 const SET_FAVORITES = 'SET-FAVORITES'
@@ -8,8 +11,8 @@ const JANRA = 'JANRA'
 const DESCR = 'DESCR'
 const SET_FAVORITES_PAGE = "SET-FAVORITES-PAGE"
 const SET_FAVORITES_TOTAL_PAGE = "SET-FAVORITES-TOTAL-PAGE"
-const startPage = 1
 const UPDATE = 'UPDATE'
+const startPage = 1
 
 const initialState = {
     customFavorites: {
@@ -32,7 +35,8 @@ const initialState = {
     favorites: [],
     favoritesPageNum: startPage,
     favoritesTotalPages: startPage,
-    update: false
+    update: false,
+    saveFavorites: true
 }
 
 const favoritesReducer = (store = initialState, action) => {
@@ -156,7 +160,7 @@ const favoritesReducer = (store = initialState, action) => {
             return {
                 ...store,
                 favorites: [store.favorites.map((item) => {
-                    if(item.id !== action.id) {
+                    if (item.id !== action.id) {
                         return item;
                     }
                     return null
@@ -223,5 +227,27 @@ export const favoritesTotalPagesAC = (value) => ({
 export const favoritesUpdate = (value) => ({
     type: UPDATE, value
 })
+
+export const getFavoriteThunk = (page) => (dispatch) => {
+    dispatch(loaderAC(true))
+    ApiData.getFavoriteDataAction(page).then(data => {
+        dispatch(actionSetFavorites(data.favorites))
+        dispatch(favoritesTotalPagesAC(data.pageCount))
+        dispatch(loaderAC(false))
+        dispatch(favoritesUpdate(false))
+    })
+}
+
+export const deleteFavoriteThunk = (id) => (dispatch) => {
+    ApiData.deleteFavoriteDataAction(id).then(res => {
+        if (res) {
+            dispatch(favoritesUpdate(true))
+        }
+    })
+}
+
+export const setFavoriteThunk = (cardInfo) => (dispatch) => {
+    ApiData.setFavoriteDataAction(cardInfo).then()
+}
 
 export default favoritesReducer

@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import {Auth} from "./Auth";
-import {logUserIn, userEmail, userPassword} from "../../redux/userReduser";
+import {loginUserThunk, registerUserThunk, userEmail, userPassword} from "../../redux/userReduser";
 import {withRouter} from "react-router-dom";
 
 const mapStateToProps = (state) => {
@@ -12,9 +12,10 @@ const mapStateToProps = (state) => {
 const withRouterAuth = withRouter(Auth)
 
 const AuthContainer = connect(mapStateToProps, {
+    loginUserThunk,
+    registerUserThunk,
     userEmail,
-    userPassword,
-    logUserIn
+    userPassword
 })(withRouterAuth)
 
 export default AuthContainer

@@ -1,7 +1,8 @@
 import {Films} from "./Films";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {filmsTotalPagesAC, setFilmDataAC} from "../../redux/filmsReducer";
+import {getFilmThunk} from "../../redux/filmsReducer";
+import AuthRedirect from "../../Hoc/AuthRedirect";
+import {compose} from "redux";
 
 const mapStateToProps = (state) => {
     return {
@@ -13,14 +14,11 @@ const mapStateToProps = (state) => {
         },
         getLoader: () => {
             return state.contentReducer.loader
-        }
+        },
+        isAuthenticated: state.userReduser.userInfo.isAuthenticated
     }
 }
 
-const FilmsContainer = connect(mapStateToProps, {
-    setFilmDataAC,
-    filmsTotalPagesAC,
-    loaderAC
-})(Films);
-
-export default FilmsContainer;
+export default compose(
+    connect(mapStateToProps, {getFilmThunk}),
+    AuthRedirect)(Films);

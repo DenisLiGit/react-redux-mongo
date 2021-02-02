@@ -1,28 +1,14 @@
 import React, {useEffect} from 'react'
-
 import InfocardContainer from "../Infocard/InfocardContainer";
 import PaginationContainer from "../Pagination/PaginationContainer";
 import {Loader} from "../Loader/Loader";
-import {getFilmDataAction} from "../../action/Actions";
 
 export const Films = (props) => {
-    const {
-        getFilms,
-        getPageNum,
-        getLoader,
-        setFilmDataAC,
-        filmsTotalPagesAC,
-        loaderAC
-    } = props
+    const {getPageNum, getFilmThunk, getLoader, getFilms} = props
     const page = getPageNum()
     useEffect(() => {
-        loaderAC(true)
-        getFilmDataAction(page).then(data => {
-            setFilmDataAC(data.films)
-            filmsTotalPagesAC(data.pageCount)
-            loaderAC(false)
-        })
-    }, [page, setFilmDataAC, filmsTotalPagesAC, loaderAC])
+        getFilmThunk(page)
+    }, [page, getFilmThunk])
 
     return (
         <>
@@ -31,9 +17,9 @@ export const Films = (props) => {
                 :
                 <>
                     {getFilms().map((item, key) => {
-                            return <InfocardContainer key={key} type="films" info={item}/>
+                        return <InfocardContainer key={key} type="films" info={item}/>
                     })}
-                    <PaginationContainer type="films" />
+                    <PaginationContainer type="films"/>
                 </>
             }
         </>
