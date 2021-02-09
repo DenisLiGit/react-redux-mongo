@@ -5,7 +5,7 @@ import {deleteFavoriteThunk, setFavoriteThunk} from "../../redux/favoritesReduce
 const mapStateToProps = (state, ownProps) => {
     return {
         data: ownProps.info,
-        type: ownProps.type,
+        userId: state.userReduser.userInfo.userid
     }
 }
 

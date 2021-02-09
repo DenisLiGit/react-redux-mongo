@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
         getLoader: () => {
             return state.contentReducer.loader
         },
-        update: state.favoritesReducer.update
+        update: state.favoritesReducer.update,
+        userid: state.userReduser.userInfo.userid
     }
 }
 

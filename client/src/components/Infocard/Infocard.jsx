@@ -67,8 +67,8 @@ export const Infocard = (props) => {
         props.setFavoriteThunk(cardInfo)
     }
 
-    const delFavorite = (id) => {
-        props.deleteFavoriteThunk(id)
+    const delFavorite = (id, userId) => {
+        props.deleteFavoriteThunk(id, userId)
     }
 
     return (
@@ -97,12 +97,12 @@ export const Infocard = (props) => {
                     <InfocardActionAdd
                         setFavorite={setFavorite}
                         id={props.data.id}
-                        type={props.type}
+                        userId={props.userId}
                         saveFavorites={props.saveFavorites}/>
                 )}
 
                 { props.type === 'favorites' && (
-                    <Link onClick={() => delFavorite({id: props.data.id})}>
+                    <Link onClick={() => delFavorite(props.data.id, props.userId)}>
                         <Delete />
                     </Link>
                 )}

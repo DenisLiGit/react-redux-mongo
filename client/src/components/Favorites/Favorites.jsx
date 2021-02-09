@@ -4,11 +4,11 @@ import {Loader} from "../Loader/Loader";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Favorites = (props) => {
-    const {getPageNum, getFavoriteThunk, getLoader, getFavorites, update} = props
+    const {getPageNum, getFavoriteThunk, getLoader, getFavorites, update, userid} = props
     const page = getPageNum()
     useEffect(() => {
-        getFavoriteThunk(page)
-    }, [page, getFavoriteThunk, update])
+        getFavoriteThunk(page, userid)
+    }, [page, getFavoriteThunk, update, userid])
 
     return (
         <>

@@ -140,9 +140,9 @@ export const favoritesUpdate = (value) => ({
     type: UPDATE, value
 })
 
-export const getFavoriteThunk = (page) => (dispatch) => {
+export const getFavoriteThunk = (page, userid) => (dispatch) => {
     dispatch(loaderAC(true))
-    ApiData.getFavoriteDataAction(page).then(data => {
+    ApiData.getFavoriteDataAction(page, userid).then(data => {
         dispatch(actionSetFavorites(data.favorites))
         dispatch(favoritesTotalPagesAC(data.pageCount))
         dispatch(loaderAC(false))
@@ -150,8 +150,8 @@ export const getFavoriteThunk = (page) => (dispatch) => {
     })
 }
 
-export const deleteFavoriteThunk = (id) => (dispatch) => {
-    ApiData.deleteFavoriteDataAction(id).then(res => {
+export const deleteFavoriteThunk = (id, userId) => (dispatch) => {
+    ApiData.deleteFavoriteDataAction(id, userId).then(res => {
         if (res) {
             dispatch(favoritesUpdate(true))
         }

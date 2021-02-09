@@ -103,8 +103,13 @@ export const ApiData = {
                 throw error
             })
     },
-    getFavoriteDataAction (pageNum) {
-        return axios.get(`/api/favorites/getFavorite?page=${pageNum}`)
+    getFavoriteDataAction (pageNum, userid) {
+        return axios.get(`/api/favorites/getFavorite`, {
+            params: {
+                page: pageNum,
+                userid: userid
+            }
+        })
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -116,10 +121,11 @@ export const ApiData = {
                 throw error
             })
     },
-    deleteFavoriteDataAction (itemId) {
+    deleteFavoriteDataAction (itemId, userId) {
         return axios.post(
             '/api/favorites/deleteFavorite', {
-                body: itemId
+                itemId,
+                userId
             })
             .then(res => {
                 if (!res) {

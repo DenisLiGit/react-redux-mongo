@@ -13,7 +13,7 @@ export const InfocardActionAdd = props => {
                 setTimeout(() => {
                     setSave(false)
                 }, 500)
-                props.setFavorite({id: props.id, type: props.type})
+                props.setFavorite({id: props.id, userId: props.userId})
             }}>
                 <Star />
             </Link>
