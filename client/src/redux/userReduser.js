@@ -1,35 +1,30 @@
 import {ApiData} from "../api/Api";
 
-const USER_LOGIN = 'USER-LOGIN'
+const USER_LOG_IN = 'USER-LOG-IN'
 const USER_LOGOUT = 'USER-LOGOUT'
-const USER_EMAIL = 'USER-EMAIL'
-const USER_PASSWORD = 'USER-PASSWORD'
+const USER_ACTION = 'USER-ACTION'
 const USER_LOADING = 'USER-LOADING'
+const USER_MESSAGE = 'USER-MESSAGE'
 
 const initialState = {
     userInfo: {
-        email: '',
-        password: '',
+        userRegister: false,
         token: null,
         userid: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
+        userMessage: null
     }
 }
 
 const userReduser = (store = initialState, action) => {
     switch (action.type) {
-        case USER_EMAIL:
+        case USER_ACTION:
             return {
                 ...store,
-                userInfo: {...store.userInfo, email: action.value},
+                userRegister: action.value,
             }
-        case USER_PASSWORD:
-            return {
-                ...store,
-                userInfo: {...store.userInfo, password: action.value},
-            }
-        case USER_LOGIN:
+        case USER_LOG_IN:
             return {
                 ...store,
                 userInfo: {
@@ -56,21 +51,26 @@ const userReduser = (store = initialState, action) => {
                 ...store,
                 userInfo: {...store.userInfo, loading: action.value}
             }
+        case USER_MESSAGE:
+            return {
+                ...store,
+                userMessage: action.value
+            }
         default:
             return store
     }
 }
 
-export const userEmail = (value) => ({
-    type: USER_EMAIL, value
+export const userMessageAC = (value) => ({
+    type: USER_MESSAGE, value
 })
 
-export const userPassword = (value) => ({
-    type: USER_PASSWORD, value
+export const userRegisterAC = (value) => ({
+    type: USER_ACTION, value
 })
 
-export const logUserIn = (value) => ({
-    type: USER_LOGIN, value
+export const userLogIn = (value) => ({
+    type: USER_LOG_IN, value
 })
 
 export const logUserOut = () => ({
@@ -82,17 +82,21 @@ export const userloading = (value) => ({
 })
 
 export const loginUserThunk = (useInfo) => (dispatch) => {
-    console.log(1)
     dispatch(userloading(true))
     ApiData.loginUserAction(useInfo).then(data => {
-        console.log(data)
-        dispatch(logUserIn(data))
+        dispatch(userLogIn(data))
         dispatch(userloading(false))
+       if (data.data){
+           dispatch(userMessageAC(data.data.message))
+       }
     })
 }
 
 export const registerUserThunk = (userInfo) => (dispatch) => {
-    ApiData.registerUserAction(userInfo)
+    ApiData.registerUserAction(userInfo).then(data => {
+        dispatch(userMessageAC(data.data.message))
+        if (data.status === 201) loginUserThunk(userInfo)(dispatch)
+    })
 }
 
 export default userReduser

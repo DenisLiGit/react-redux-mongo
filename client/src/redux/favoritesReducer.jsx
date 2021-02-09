@@ -1,8 +1,6 @@
 import {ApiData} from "../api/Api";
 import {loaderAC} from "./contentReducer";
 
-const CREATE_CUSTOM_BOOK = 'CREATE_CUSTOM_BOOK'
-const CLEAR_CUSTOM_BOOK = 'CLEAR_CUSTOM_BOOK'
 const SET_FAVORITES = 'SET-FAVORITES'
 const DEL_FAVORITES = 'DEL-FAVORITES'
 const NAME = 'NAME'
@@ -16,8 +14,6 @@ const startPage = 1
 
 const initialState = {
     customFavorites: {
-        name: '',
-        author: '',
         janra: 'фэнтези',
         janraOptions: [
             {
@@ -29,8 +25,6 @@ const initialState = {
                 label: 'фантастика'
             },
         ],
-        description: '',
-        link: ''
     },
     favorites: [],
     favoritesPageNum: startPage,
@@ -60,63 +54,6 @@ const favoritesReducer = (store = initialState, action) => {
             return {
                 ...store,
                 customFavorites: {...store.customFavorites, description: action.value}
-            }
-        case CREATE_CUSTOM_BOOK:
-            return {
-                ...store,
-                favorites: [{
-                    title: {
-                        name: 'Название',
-                        content: store.customFavorites.name
-                    },
-                    author: {
-                        name: 'Автор',
-                        content: store.customFavorites.author
-                    },
-                    janra: {
-                        name: 'Жанр',
-                        content: store.customFavorites.janra
-                    },
-                    janraOptions: [
-                        {
-                            value: 'фэнтези',
-                            label: 'фэнтези'
-                        },
-                        {
-                            value: 'фантастика',
-                            label: 'фантастика'
-                        },
-                    ],
-                    description: {
-                        name: 'Описание',
-                        content: store.customFavorites.description
-                    },
-                    link: {
-                        content: 'test.com'
-                    }
-                },
-                    ...store.favorites
-                ]
-            }
-        case CLEAR_CUSTOM_BOOK:
-            return {
-                ...store,
-                customFavorites: {
-                    name: '',
-                    author: '',
-                    janra: 'фэнтези',
-                    janraOptions: [
-                        {
-                            value: 'фэнтези',
-                            label: 'фэнтези'
-                        },
-                        {
-                            value: 'фантастика',
-                            label: 'фантастика'
-                        },
-                    ],
-                    description: ''
-                }
             }
         case SET_FAVORITES:
             return {
@@ -187,33 +124,8 @@ const favoritesReducer = (store = initialState, action) => {
     }
 }
 
-export const actionCreateCustomBook = () => ({
-    type: CREATE_CUSTOM_BOOK
-})
-export const actionClearCustomBook = () => ({
-    type: CLEAR_CUSTOM_BOOK
-})
 export const actionSetFavorites = (items) => ({
     type: SET_FAVORITES, items
-})
-export const delFavoritesAC = (id) => ({
-    type: DEL_FAVORITES, id
-})
-
-export const actionSetName = (value) => ({
-    type: NAME, value: value
-})
-
-export const actionSetAuthor = (value) => ({
-    type: AUTHOR, value: value
-})
-
-export const actionSetJanra = (value) => ({
-    type: JANRA, value: value
-})
-
-export const actionSetDescr = (value) => ({
-    type: DESCR, value: value
 })
 
 export const favoritesPageAC = (value) => ({

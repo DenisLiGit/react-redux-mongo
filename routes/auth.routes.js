@@ -26,13 +26,13 @@ async (req, res) => {
         const {email, password} = req.body.body
         const candidate = await User.findOne({email})
         if (candidate) {
-            return res.status(400).json({message: 'user already exist'})
+            return res.status(402).json({message: 'Пользователь уже существует'})
         }
         const hashPassword = await bcrypt.hash(password, 12)
         const user = new User({email, password: hashPassword})
         await user.save()
 
-        res.status(201).json({message: 'user created'})
+        res.status(201).json({message: 'Пользователь создан'})
 
     } catch (e) {
         res.status(500).json({ message: 'error custom'})
@@ -58,26 +58,23 @@ async (req, res) => {
         }
 
         const {email, password} = req.body.body
+
         const user = await User.findOne({email})
-
-        console.log(user)
         if(!user) {
-            return res.status(400).json({message: 'nor exist user'})
+            return res.status(400).json({message: 'Неверные данные'})
         }
 
-        console.log(1)
         const passMatch = await bcrypt.compare(password, user.password)
-
         if(!passMatch) {
-            return res.status(400).json({message: 'pass not correct'})
+            return res.status(400).json({message: 'Неверные данные'})
         }
-console.log(2)
+
         const token = jwt.sign(
             { userId: user.id },
             config.get("jwtSecretKey"),
             { expiresIn: '1h' }
         )
-console.log(3)
+
         res.json({ token, userId: user.id })
     } catch (e) {
         res.status(500).json({ message: 'error custom'})

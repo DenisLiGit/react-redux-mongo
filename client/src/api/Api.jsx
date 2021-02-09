@@ -73,7 +73,7 @@ export const ApiData = {
                 return res.data
             })
             .catch(error => {
-                throw error
+                return error.response
             })
     },
     registerUserAction (userInfo) {
@@ -81,10 +81,10 @@ export const ApiData = {
             body: userInfo
         })
             .then(res => {
-                console.log('register success', res)
+                return res
             })
             .catch(error => {
-                throw error
+                return error.response
             })
     },
     setFavoriteDataAction (userInfo) {

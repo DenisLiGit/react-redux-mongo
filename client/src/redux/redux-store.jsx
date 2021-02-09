@@ -7,6 +7,8 @@ import filmsReducer from "./filmsReducer";
 import serialsReducer from "./serialsReducer";
 import gamesReducer from "./gamesReducer";
 import thunkMiddleware from 'redux-thunk';
+import {reducer as formReducer} from 'redux-form'
+import cardReducer from "./cardReducer";
 
 let redusers = combineReducers({
     contentReducer,
@@ -15,7 +17,9 @@ let redusers = combineReducers({
     booksReducer,
     filmsReducer,
     serialsReducer,
-    gamesReducer
+    gamesReducer,
+    cardReducer,
+    form: formReducer
 })
 
 let store = createStore(redusers, applyMiddleware(thunkMiddleware));

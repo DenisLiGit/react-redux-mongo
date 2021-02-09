@@ -1,13 +1,13 @@
 import App from "./App";
 import {connect} from "react-redux";
-import {logUserIn} from "./redux/userReduser";
+import {userLogIn} from "./redux/userReduser";
 
 const mapStateToProps = (state) => {
     return { }
 }
 
 const AppContainer = connect(mapStateToProps, {
-    logUserIn
+    userLogIn
 })(App)
 
 export default AppContainer

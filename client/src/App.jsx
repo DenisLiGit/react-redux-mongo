@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
     const classes = useStyles()
-    const logUserIn = props.logUserIn
+    const logUserIn = props.userLogIn
 
     useState(() => {
         logUserIn({
