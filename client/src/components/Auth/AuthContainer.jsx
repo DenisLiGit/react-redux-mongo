@@ -1,20 +1,24 @@
 import {connect} from "react-redux";
-import {Auth} from "./Auth";
-import {logUserIn, userEmail, userPassword} from "../../redux/userReduser";
-import {withRouter} from "react-router-dom";
+import AuthBox from "./Auth";
+import {loginUserThunk, registerUserThunk, userRegisterAC} from "../../redux/userReduser";
+import {compose} from "redux";
+import LoginRedirect from "../../Hoc/LoginRedirect";
+import {isAuthenticated} from "../../redux/selectors/generalSelectors";
+import {userMessage, userRegister} from "../../redux/selectors/usersSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        userInfo: state.userReduser.userInfo
+        userRegister: userRegister(state),
+        userMessage: userMessage(state),
+        isAuthenticated: isAuthenticated(state)
     }
 }
 
-const withRouterAuth = withRouter(Auth)
-
-const AuthContainer = connect(mapStateToProps, {
-    userEmail,
-    userPassword,
-    logUserIn
-})(withRouterAuth)
-
-export default AuthContainer
+export default compose(
+    connect(mapStateToProps, {
+        loginUserThunk,
+        registerUserThunk,
+        userRegisterAC,
+    }),
+    LoginRedirect
+)(AuthBox)

@@ -1,28 +1,22 @@
 import {Favorites} from "./Favorites";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {actionSetFavorites, favoritesTotalPagesAC, favoritesUpdate} from "../../redux/favoritesReducer";
+import {getFavoriteThunk, updateFavorites} from "../../redux/favoritesReducer";
+import {loader} from "../../redux/selectors/generalSelectors";
+import {favoritesPageNum, getFavorites} from "../../redux/selectors/favoritesSelectors";
+import {userId} from "../../redux/selectors/usersSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        getFavorites: () => {
-            return state.favoritesReducer.favorites
-        },
-        getPageNum: () => {
-            return state.favoritesReducer.favoritesPageNum
-        },
-        getLoader: () => {
-            return state.contentReducer.loader
-        },
-        update: state.favoritesReducer.update
+        favorites: getFavorites(state),
+        update: updateFavorites(state),
+        userId: userId(state),
+        pageNum: favoritesPageNum(state),
+        loader: loader(state)
     }
 }
 
 const FavoritesContainer = connect(mapStateToProps, {
-    actionSetFavorites,
-    favoritesTotalPagesAC,
-    loaderAC,
-    favoritesUpdate
+    getFavoriteThunk
 })(Favorites);
 
 export default FavoritesContainer;

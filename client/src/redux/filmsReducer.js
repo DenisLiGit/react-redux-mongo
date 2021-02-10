@@ -1,3 +1,6 @@
+import {ApiData} from "../api/Api";
+import {loaderAC} from "./contentReducer";
+
 const SET_FILM_DATA = "SET-FILM-DATA"
 const SET_FILM_PAGE = "SET-FILM-PAGE"
 const SET_FILM_TOTAL_PAGE = "SET-FILM-TOTAL-PAGE"
@@ -63,5 +66,14 @@ export const filmsPageAC = (value) => ({
 export const filmsTotalPagesAC = (value) => ({
     type: SET_FILM_TOTAL_PAGE, value
 })
+
+export const getFilmThunk = (page) => (dispatch) => {
+    dispatch(loaderAC(true))
+    ApiData.getFilmDataAction(page).then(data => {
+        dispatch(setFilmDataAC(data.films))
+        dispatch(filmsTotalPagesAC(data.pageCount))
+        dispatch(loaderAC(false))
+    })
+}
 
 export default  filmsReducer

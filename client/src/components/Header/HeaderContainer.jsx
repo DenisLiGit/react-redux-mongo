@@ -1,9 +1,10 @@
 import {connect} from "react-redux";
 import {Header} from "./Header";
+import {isAuthenticated} from "../../redux/selectors/generalSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.userReduser.userInfo.isAuthenticated
+        isAuthenticated: isAuthenticated(state)
     }
 }
 

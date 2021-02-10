@@ -1,26 +1,21 @@
 import {Serials} from "./Serials";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {serialsTotalPagesAC, setSerialDataAC} from "../../redux/serialsReducer";
+import {getSerialThunk} from "../../redux/serialsReducer";
+import {compose} from "redux";
+import AuthRedirect from "../../Hoc/AuthRedirect";
+import {isAuthenticated, loader} from "../../redux/selectors/generalSelectors";
+import {getSerials, serialsPageNum} from "../../redux/selectors/serialsSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        getSerials: () => {
-            return state.serialsReducer.serials
-        },
-        getPageNum: () => {
-            return state.serialsReducer.serialsPageNum
-        },
-        getLoader: () => {
-            return state.contentReducer.loader
-        }
+        serials: getSerials(state),
+        pageNum: serialsPageNum(state),
+        loader: loader(state),
+        isAuthenticated: isAuthenticated(state)
     }
 }
 
-const SerialContaimer = connect(mapStateToProps, {
-    setSerialDataAC,
-    serialsTotalPagesAC,
-    loaderAC
-})(Serials)
-
-export default SerialContaimer
+export default compose(
+    connect(mapStateToProps, {getSerialThunk}),
+    AuthRedirect
+)(Serials)

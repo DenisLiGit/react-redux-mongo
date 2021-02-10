@@ -1,49 +1,23 @@
 import React, {useEffect} from 'react'
 import InfocardContainer from "../Infocard/InfocardContainer";
-import {getFavoriteDataAction} from "../../action/Actions";
 import {Loader} from "../Loader/Loader";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Favorites = (props) => {
-
-    const {
-        getFavorites,
-        getPageNum,
-        getLoader,
-        actionSetFavorites,
-        favoritesTotalPagesAC,
-        loaderAC,
-        update,
-        favoritesUpdate
-    } = props
-
-    const page = getPageNum()
+    const {pageNum, getFavoriteThunk, loader, favorites, userId} = props
     useEffect(() => {
-        loaderAC(true)
-        getFavoriteDataAction(page).then(data => {
-            actionSetFavorites(data.favorites)
-            favoritesTotalPagesAC(data.pageCount)
-            loaderAC(false)
-            favoritesUpdate(false)
-        })
-    }, [
-        page,
-        actionSetFavorites,
-        favoritesTotalPagesAC,
-        loaderAC,
-        update,
-        favoritesUpdate
-    ])
+        getFavoriteThunk(pageNum, userId)
+    }, [pageNum, getFavoriteThunk, favorites, userId])
 
     return (
         <>
-            {getLoader() ?
+            {loader ?
                 <Loader/>
                 :
                 <>
-                    {getFavorites('favorites') ?
-                        getFavorites('favorites').map((item, key) => {
-                            return <InfocardContainer key={key} info={item} type="favorites" />
+                    {favorites ?
+                        favorites.map((item, key) => {
+                            return <InfocardContainer key={key} info={item} type="favorites"/>
                         }) : null}
                     <PaginationContainer type="favorites"/>
                 </>

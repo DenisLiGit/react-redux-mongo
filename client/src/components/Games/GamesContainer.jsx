@@ -1,26 +1,21 @@
 import {Games} from "./Games";
 import {connect} from "react-redux";
-import {loaderAC} from "../../redux/contentReducer";
-import {gamesTotalPagesAC, setGameDataAC} from "../../redux/gamesReducer";
+import {getGameThunk} from "../../redux/gamesReducer";
+import {compose} from "redux";
+import AuthRedirect from "../../Hoc/AuthRedirect";
+import {isAuthenticated, loader} from "../../redux/selectors/generalSelectors";
+import {gamesPageNum, getGames} from "../../redux/selectors/gamesSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        getGames: () => {
-            return state.gamesReducer.games
-        },
-        getPageNum: () => {
-            return state.gamesReducer.gamesPageNum
-        },
-        getLoader: () => {
-            return state.contentReducer.loader
-        }
+        games: getGames(state),
+        pageNum: gamesPageNum(state),
+        loader: loader(state),
+        isAuthenticated: isAuthenticated(state)
     }
 }
 
-const GameContaimer = connect(mapStateToProps, {
-    setGameDataAC,
-    gamesTotalPagesAC,
-    loaderAC
-})(Games)
-
-export default GameContaimer
+export default compose(
+    connect(mapStateToProps, {getGameThunk}),
+    AuthRedirect
+)(Games);

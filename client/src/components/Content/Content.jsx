@@ -4,12 +4,12 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Switch, Route, Redirect} from "react-router-dom";
 import CardFormContainer from "../CardForm/CardFormContainer";
 import AuthContainer from "../Auth/AuthContainer";
-import MainContainer from "../Main/MainContainer";
 import BooksContainer from "../Books/BooksContainer";
 import FilmsContainer from "../Films/FilmsContainer";
 import FavoritesContainer from "../Favorites/FavoritesContainer";
 import SerialContaimer from "../Serials/SerialsContainer";
 import GameContaimer from "../Games/GamesContainer";
+import {Main} from "../Main/Main";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -28,7 +28,7 @@ export const Content = () => {
 
             <Switch>
                 <Route exact path='/'>
-                    <MainContainer />
+                    <Main />
                 </Route>
                 <Route exact path='/books'>
                     <BooksContainer />

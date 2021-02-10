@@ -1,3 +1,6 @@
+import {ApiData} from "../api/Api";
+import {loaderAC} from "./contentReducer";
+
 const SET_SERIAL_DATA = "SET-SERIAL-DATA"
 const SET_SERIAL_PAGE = "SET-SERIAL-PAGE"
 const SET_SERIAL_TOTAL_PAGE = "SET-SERIAL-TOTAL-PAGE"
@@ -59,5 +62,14 @@ export const serialsPageAC = (value) => ({
 export const serialsTotalPagesAC = (value) => ({
     type: SET_SERIAL_TOTAL_PAGE, value
 })
+
+export const getSerialThunk = (page) => (dispatch) => {
+    dispatch(loaderAC(true))
+    ApiData.getSerialDataAction(page).then(data => {
+        dispatch(setSerialDataAC(data.serials))
+        dispatch(serialsTotalPagesAC(data.pageCount))
+        dispatch(loaderAC(false))
+    })
+}
 
 export default  serialsReducer

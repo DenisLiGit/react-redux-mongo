@@ -1,3 +1,6 @@
+import {ApiData} from "../api/Api";
+import {loaderAC} from "./contentReducer";
+
 const SET_GAME_DATA = "SET-GAME-DATA"
 const SET_GAME_PAGE = "SET-GAME-PAGE"
 const SET_GAME_TOTAL_PAGE = "SET-GAME-TOTAL-PAGE"
@@ -62,5 +65,14 @@ export const gamesPageAC = (value) => ({
 export const gamesTotalPagesAC = (value) => ({
     type: SET_GAME_TOTAL_PAGE, value
 })
+
+export const getGameThunk = (page) => (dispatch) => {
+    dispatch(loaderAC(true))
+    ApiData.getGameDataAction(page).then(data => {
+        dispatch(setGameDataAC(data.games))
+        dispatch(gamesTotalPagesAC(data.pageCount))
+        dispatch(loaderAC(false))
+    })
+}
 
 export default  gamesReducer

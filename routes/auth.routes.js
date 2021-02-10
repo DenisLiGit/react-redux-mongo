@@ -15,7 +15,7 @@ router.post(
 ],
 async (req, res) => {
     try {
-        const errors = validationResult(req)
+        const errors = validationResult(req.body)
 
         if(!errors.isEmpty()) {
             return res.status(400).json({
@@ -23,16 +23,16 @@ async (req, res) => {
                 message: 'eorror'
             })
         }
-        const {email, password} = req.body
+        const {email, password} = req.body.body
         const candidate = await User.findOne({email})
         if (candidate) {
-            return res.status(400).json({message: 'user already exist'})
+            return res.status(402).json({message: 'Пользователь уже существует'})
         }
         const hashPassword = await bcrypt.hash(password, 12)
         const user = new User({email, password: hashPassword})
         await user.save()
 
-        res.status(201).json({message: 'user created'})
+        res.status(201).json({message: 'Пользователь создан'})
 
     } catch (e) {
         res.status(500).json({ message: 'error custom'})
@@ -49,8 +49,7 @@ router.post(
 ],
 async (req, res) => {
     try {
-    const errors = validationResult(req)
-
+    const errors = validationResult(req.body.body)
         if(!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
@@ -58,17 +57,16 @@ async (req, res) => {
             })
         }
 
-        const {email, password} = req.body
-        const user = await User.findOne({email})
+        const {email, password} = req.body.body
 
+        const user = await User.findOne({email})
         if(!user) {
-            return res.status(400).json({message: 'nor exist user'})
+            return res.status(400).json({message: 'Неверные данные'})
         }
 
         const passMatch = await bcrypt.compare(password, user.password)
-
         if(!passMatch) {
-            return res.status(400).json({message: 'pass not correct'})
+            return res.status(400).json({message: 'Неверные данные'})
         }
 
         const token = jwt.sign(

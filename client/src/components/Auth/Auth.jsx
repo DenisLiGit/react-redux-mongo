@@ -6,9 +6,10 @@ import TextField from "@material-ui/core/TextField";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import deepOrange from "@material-ui/core/colors/deepOrange";
+import red from "@material-ui/core/colors/red";
 import Button from "@material-ui/core/Button";
-import {userloading} from "../../redux/userReduser";
-import {loginUserAction, registerUserAction} from "../../action/Actions";
+import {Field, reduxForm} from "redux-form";
+import {Email, MaxLength, MinLength, Required} from "../../Validation/LogindValidation";
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -33,81 +34,102 @@ const useStyles = makeStyles({
         "& button": {
             margin: '10px 5px'
         }
+    },
+    errorMessage: {
+        color: red[700]
     }
 })
 
-export const Auth = (props) => {
+const renderTextField = ({label, input, meta: {touched, invalid, error}, ...custom}) => (
+    <>
+        <TextField
+            label={label}
+            placeholder={label}
+            error={touched && invalid}
+            helperText={touched && error}
+            {...input}
+            {...custom}
+        />
+        {touched &&
+        ((error && <span>{error}</span>))}
+    </>
+)
+const MaxLength50 = MaxLength(50)
+const MinLength5 = MinLength(5)
+
+const Auth = (props) => {
     const classes = useStyles();
-    const {
-        userEmail,
-        userPassword,
-        logUserIn
-    } = props
-
-    const userLogin = (useInfo) => {
-        userloading(true)
-        loginUserAction(useInfo).then(data => {
-            logUserIn(data)
-            userloading(false)
-            props.history.push('/')
-        })
-    }
-
-    const userRegister = (useInfo) => {
-        registerUserAction(useInfo)
-    }
+    const {handleSubmit, pristine, invalid, submitting} = props
 
     return (
         <Card>
             <CardContent>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <Grid container className={classes.wrap}>
                         <Grid item xs={4} className={classes.fieldsContainer}>
                             <h1>Авторизация</h1>
-                            <TextField
+                            <Field
+                                name='email'
+                                component={renderTextField}
+                                label='Логин'
                                 id="standard-basic"
-                                label="Логин"
-                                name="email"
-                                value={props.userInfo.email}
-                                onChange={(e) => userEmail(e.target.value)}
-                                disabled={props.userInfo.loading}
+                                validate={[MaxLength50, MinLength5, Required, Email]}
+                                className={classes.item}
                             />
-                            <TextField
+                            <Field
+                                name='password'
+                                component={renderTextField}
+                                label='Пароль'
                                 id="standard-password-input"
-                                label="Пароль"
-                                name="password"
-                                type="password"
-                                value={props.userInfo.password}
-                                onChange={(e) => userPassword(e.target.value)}
-                                disabled={props.userInfo.loading}
+                                type={"password"}
+                                validate={[Required, MaxLength50, MinLength5]}
+                                className={classes.item}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.buttonsContainer}>
                             <ColorButton
+                                name='login'
                                 variant="contained"
                                 color="primary"
-                                onClick={() => userLogin({
-                                    email: props.userInfo.email,
-                                    password: props.userInfo.password
-                                })}
+                                type="submit"
+                                onClick={() => props.userRegisterAC(false)}
+                                disabled={pristine || invalid || submitting}
                                 size="small">
                                 Вход
                             </ColorButton>
                             <ColorButton
+                                name='register'
                                 variant="contained"
                                 color="primary"
-                                onClick={() => userRegister({
-                                    email: props.userInfo.email,
-                                    password: props.userInfo.password
-                                })}
+                                type="submit"
+                                onClick={() => props.userRegisterAC(true)}
+                                disabled={pristine || invalid || submitting}
                                 size="small">
                                 Регистрация
                             </ColorButton>
                         </Grid>
-
                     </Grid>
+                    <span className={classes.errorMessage}>{props.userMessage}</span>
                 </form>
             </CardContent>
         </Card>
     )
 }
+
+const AuthForm = reduxForm({
+    form: 'auth'
+})(Auth)
+
+
+const AuthBox = props => {
+    const submit = (formData) => {
+        if(props.userRegister) {
+            props.registerUserThunk(formData)
+        } else {
+            props.loginUserThunk(formData)
+        }
+    }
+    return <AuthForm onSubmit={submit} {...props} />
+}
+
+export default AuthBox

@@ -1,18 +1,17 @@
 import React from 'react'
 
 import {makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Link from '@material-ui/core/Link';
 import grey from "@material-ui/core/colors/grey";
 import deepOrange from '@material-ui/core/colors/deepOrange';
-import {InfocardPart} from "./InfocardPart/InfocardPart";
-import Star from '@material-ui/icons/Star';
 import Delete from '@material-ui/icons/Delete';
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
-import {deleteFavoriteDataAction, setFavoriteDataAction} from "../../action/Actions";
+import {InfocardPart} from "./InfocardPart/InfocardPart";
+import {InfocardActionAdd} from "./InfocardAction/InfocardActionAdd";
 
 const useStyles = makeStyles({
     root: {
@@ -35,6 +34,9 @@ const useStyles = makeStyles({
         },
         "&> a:hover": {
             color: deepOrange[700]
+        },
+        "&> a:active": {
+            color: deepOrange[900]
         }
     },
     carefully: {
@@ -62,15 +64,11 @@ export const Infocard = (props) => {
         }
     }
     const setFavorite = (cardInfo) => {
-        setFavoriteDataAction(cardInfo)
+        props.setFavoriteThunk(cardInfo)
     }
 
-    const delFavorite = (id) => {
-        deleteFavoriteDataAction(id).then(res => {
-            if (res) {
-                props.favoritesUpdate(true)
-            }
-        })
+    const delFavorite = (id, userId) => {
+        props.deleteFavoriteThunk(id, userId)
     }
 
     return (
@@ -96,13 +94,15 @@ export const Infocard = (props) => {
             </CardContent>
             <CardActions className={classes.actions} disableSpacing={true}>
                 { props.type !== 'favorites' && (
-                    <Link onClick={() => setFavorite({id: props.data.id, type: props.type})}>
-                        <Star />
-                    </Link>
+                    <InfocardActionAdd
+                        setFavorite={setFavorite}
+                        id={props.data.id}
+                        userId={props.userId}
+                        saveFavorites={props.saveFavorites}/>
                 )}
 
                 { props.type === 'favorites' && (
-                    <Link onClick={() => delFavorite({id: props.data.id})}>
+                    <Link onClick={() => delFavorite(props.data.id, props.userId)}>
                         <Delete />
                     </Link>
                 )}

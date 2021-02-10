@@ -5,21 +5,26 @@ import {filmsPageAC} from "../../redux/filmsReducer";
 import {serialsPageAC} from "../../redux/serialsReducer";
 import {gamesPageAC} from "../../redux/gamesReducer";
 import {favoritesPageAC} from "../../redux/favoritesReducer";
+import {booksPageNum, booksTotalPages} from "../../redux/selectors/booksSelectors";
+import {filmsPageNum, filmsTotalPages} from "../../redux/selectors/filmsSelectors";
+import {serialsPageNum, serialsTotalPages} from "../../redux/selectors/serialsSelectors";
+import {gamesPageNum, gamesTotalPages} from "../../redux/selectors/gamesSelectors";
+import {favoritesPageNum, favoritesTotalPages} from "../../redux/selectors/favoritesSelectors";
 
 const mapStateToProps = (state, ownProps) => {
     return {
         getPage() {
             switch (ownProps.type) {
                 case 'books':
-                    return state.booksReducer.booksPageNum
+                    return booksPageNum(state)
                 case 'films':
-                    return state.filmsReducer.filmsPageNum
+                    return filmsPageNum(state)
                 case 'serials':
-                    return state.serialsReducer.serialsPageNum
+                    return serialsPageNum(state)
                 case 'games':
-                    return state.gamesReducer.gamesPageNum
+                    return gamesPageNum(state)
                 case 'favorites':
-                    return state.favoritesReducer.favoritesPageNum
+                    return favoritesPageNum(state)
                 default:
                     return null
             }
@@ -27,15 +32,15 @@ const mapStateToProps = (state, ownProps) => {
         getTotalPages() {
             switch (ownProps.type) {
                 case 'books':
-                    return state.booksReducer.booksTotalPages
+                    return booksTotalPages(state)
                 case 'films':
-                    return state.filmsReducer.filmsTotalPages
+                    return filmsTotalPages(state)
                 case 'serials':
-                    return state.serialsReducer.serialsTotalPages
+                    return serialsTotalPages(state)
                 case 'games':
-                    return state.gamesReducer.gamesTotalPages
+                    return gamesTotalPages(state)
                 case 'favorites':
-                    return state.favoritesReducer.favoritesTotalPages
+                    return favoritesTotalPages(state)
                 default:
                     return null
             }
