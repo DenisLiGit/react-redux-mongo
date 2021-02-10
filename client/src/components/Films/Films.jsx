@@ -4,19 +4,18 @@ import PaginationContainer from "../Pagination/PaginationContainer";
 import {Loader} from "../Loader/Loader";
 
 export const Films = (props) => {
-    const {getPageNum, getFilmThunk, getLoader, getFilms} = props
-    const page = getPageNum()
+    const {pageNum, getFilmThunk, loader, films} = props
     useEffect(() => {
-        getFilmThunk(page)
-    }, [page, getFilmThunk])
+        getFilmThunk(pageNum)
+    }, [pageNum, getFilmThunk])
 
     return (
         <>
-            {getLoader() ?
+            {loader ?
                 <Loader/>
                 :
                 <>
-                    {getFilms().map((item, key) => {
+                    {films.map((item, key) => {
                         return <InfocardContainer key={key} type="films" info={item}/>
                     })}
                     <PaginationContainer type="films"/>

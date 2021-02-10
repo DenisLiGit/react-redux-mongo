@@ -5,17 +5,17 @@ const SET_FAVORITES = 'SET-FAVORITES'
 const DEL_FAVORITES = 'DEL-FAVORITES'
 const NAME = 'NAME'
 const AUTHOR = 'AUTHOR'
-const JANRA = 'JANRA'
+const GENRE = 'GENRE'
 const DESCR = 'DESCR'
 const SET_FAVORITES_PAGE = "SET-FAVORITES-PAGE"
 const SET_FAVORITES_TOTAL_PAGE = "SET-FAVORITES-TOTAL-PAGE"
-const UPDATE = 'UPDATE'
+const UPDATE_FAVORITES = 'UPDATE-FAVORITES'
 const startPage = 1
 
 const initialState = {
     customFavorites: {
-        janra: 'фэнтези',
-        janraOptions: [
+        genre: 'фэнтези',
+        genreOptions: [
             {
                 value: 'фэнтези',
                 label: 'фэнтези'
@@ -29,7 +29,7 @@ const initialState = {
     favorites: [],
     favoritesPageNum: startPage,
     favoritesTotalPages: startPage,
-    update: false,
+    updateFavorites: false,
     saveFavorites: true
 }
 
@@ -45,10 +45,10 @@ const favoritesReducer = (store = initialState, action) => {
                 ...store,
                 customFavorites: {...store.customFavorites, author: action.value}
             }
-        case JANRA:
+        case GENRE:
             return {
                 ...store,
-                customFavorites: {...store.customFavorites, janra: action.value}
+                customFavorites: {...store.customFavorites, genre: action.value}
             }
         case DESCR:
             return {
@@ -113,10 +113,10 @@ const favoritesReducer = (store = initialState, action) => {
                 ...store,
                 favoritesTotalPages: action.value
             }
-        case UPDATE: {
+        case UPDATE_FAVORITES: {
             return {
                 ...store,
-                update: action.value
+                updateFavorites: action.value
             }
         }
         default:
@@ -136,8 +136,8 @@ export const favoritesTotalPagesAC = (value) => ({
     type: SET_FAVORITES_TOTAL_PAGE, value
 })
 
-export const favoritesUpdate = (value) => ({
-    type: UPDATE, value
+export const updateFavorites = (value) => ({
+    type: UPDATE_FAVORITES, value
 })
 
 export const getFavoriteThunk = (page, userid) => (dispatch) => {
@@ -146,14 +146,14 @@ export const getFavoriteThunk = (page, userid) => (dispatch) => {
         dispatch(actionSetFavorites(data.favorites))
         dispatch(favoritesTotalPagesAC(data.pageCount))
         dispatch(loaderAC(false))
-        dispatch(favoritesUpdate(false))
+        dispatch(updateFavorites(false))
     })
 }
 
 export const deleteFavoriteThunk = (id, userId) => (dispatch) => {
     ApiData.deleteFavoriteDataAction(id, userId).then(res => {
         if (res) {
-            dispatch(favoritesUpdate(true))
+            dispatch(updateFavorites(true))
         }
     })
 }

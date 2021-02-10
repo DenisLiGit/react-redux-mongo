@@ -4,19 +4,18 @@ import InfocardContainer from "../Infocard/InfocardContainer";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Games = (props) => {
-    const {getPageNum, getGameThunk, getLoader, getGames} = props
-    const page = getPageNum()
+    const {pageNum, getGameThunk, loader, games} = props
     useEffect(() => {
-        getGameThunk(page)
-    }, [page, getGameThunk])
+        getGameThunk(pageNum)
+    }, [pageNum, getGameThunk])
 
     return (
         <>
-            {getLoader() ?
+            {loader ?
                 <Loader/>
                 :
                 <>
-                    {getGames().map((item, key) => {
+                    {games.map((item, key) => {
                         return <InfocardContainer key={key} type="games" info={item}/>
                     })}
                     <PaginationContainer type="games"/>

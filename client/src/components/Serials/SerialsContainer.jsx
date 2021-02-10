@@ -3,19 +3,15 @@ import {connect} from "react-redux";
 import {getSerialThunk} from "../../redux/serialsReducer";
 import {compose} from "redux";
 import AuthRedirect from "../../Hoc/AuthRedirect";
+import {isAuthenticated, loader} from "../../redux/selectors/generalSelectors";
+import {getSerials, serialsPageNum} from "../../redux/selectors/serialsSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        getSerials: () => {
-            return state.serialsReducer.serials
-        },
-        getPageNum: () => {
-            return state.serialsReducer.serialsPageNum
-        },
-        getLoader: () => {
-            return state.contentReducer.loader
-        },
-        isAuthenticated: state.userReduser.userInfo.isAuthenticated
+        serials: getSerials(state),
+        pageNum: serialsPageNum(state),
+        loader: loader(state),
+        isAuthenticated: isAuthenticated(state)
     }
 }
 

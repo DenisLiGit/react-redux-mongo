@@ -4,19 +4,18 @@ import PaginationContainer from "../Pagination/PaginationContainer";
 import {Loader} from "../Loader/Loader";
 
 export const Books = (props) => {
-    const {getPageNum, getBookThunk, getLoader, getBooks} = props
-    const page = getPageNum()
+    const {pageNum, getBookThunk, loader, books} = props
     useEffect(() => {
-        getBookThunk(page)
-    }, [page, getBookThunk])
+        getBookThunk(pageNum)
+    }, [pageNum, getBookThunk])
 
     return (
         <>
-            {getLoader() ?
+            {loader ?
                 <Loader/>
                 :
                 <>
-                    {getBooks().map((item, key) => {
+                    {books.map((item, key) => {
                         return <InfocardContainer key={key} type="books" info={item}/>
                     })}
                     <PaginationContainer type="books"/>

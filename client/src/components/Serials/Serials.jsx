@@ -4,20 +4,19 @@ import InfocardContainer from "../Infocard/InfocardContainer";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Serials = (props) => {
-    const {getPageNum, getSerialThunk, getLoader, getSerials} = props
-    const page = getPageNum()
+    const {pageNum, getSerialThunk, loader, serials} = props
     useEffect(() => {
-        getSerialThunk(page)
-    }, [page, getSerialThunk])
+        getSerialThunk(pageNum)
+    }, [pageNum, getSerialThunk])
 
 
     return (
         <>
-            {getLoader() ?
+            {loader ?
                 <Loader/>
                 :
                 <>
-                    {getSerials().map((item, key) => {
+                    {serials.map((item, key) => {
                         return <InfocardContainer key={key} type="serials" info={item}/>
                     })}
                     <PaginationContainer type="serials"/>

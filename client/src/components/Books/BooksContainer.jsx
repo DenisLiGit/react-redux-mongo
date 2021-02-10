@@ -3,19 +3,15 @@ import {connect} from "react-redux";
 import {getBookThunk} from "../../redux/booksReducer";
 import AuthRedirect from '../../Hoc/AuthRedirect'
 import {compose} from "redux";
+import {isAuthenticated, loader} from "../../redux/selectors/generalSelectors";
+import {booksPageNum, getBooksS} from "../../redux/selectors/booksSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        getBooks: () => {
-            return state.booksReducer.books
-        },
-        getPageNum: () => {
-            return state.booksReducer.booksPageNum
-        },
-        getLoader: () => {
-            return state.contentReducer.loader
-        },
-        isAuthenticated: state.userReduser.userInfo.isAuthenticated
+        books: getBooksS(state),
+        pageNum: booksPageNum(state),
+        loader: loader(state),
+        isAuthenticated: isAuthenticated(state)
     }
 }
 

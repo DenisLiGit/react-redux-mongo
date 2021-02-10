@@ -10,7 +10,7 @@ const initialState = {
     userInfo: {
         userRegister: false,
         token: null,
-        userid: null,
+        userId: null,
         isAuthenticated: false,
         loading: false,
         userMessage: null
@@ -30,7 +30,7 @@ const userReduser = (store = initialState, action) => {
                 userInfo: {
                     ...store.userInfo,
                     token: action.value.token,
-                    userid: action.value.userid,
+                    userId: action.value.userid,
                     isAuthenticated: !!action.value.token
                 },
 

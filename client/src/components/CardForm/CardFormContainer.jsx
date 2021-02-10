@@ -1,11 +1,12 @@
 import CardItem from "./CardForm";
 import {connect} from "react-redux";
 import {cardTypeAC, createFavoriteThunk} from "../../redux/cardReducer";
+import {cardType, genreOptions} from "../../redux/selectors/cardSelectors";
 
 const mapStateToProps = (state) => {
     return {
-        janraOptions: state.favoritesReducer.customFavorites.janraOptions,
-        cardType: state.cardReducer.cardType
+        genreOptions: genreOptions(state),
+        cardType: cardType(state)
     }
 }
 

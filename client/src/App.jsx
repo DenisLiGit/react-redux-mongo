@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 
 import {BrowserRouter as Router} from "react-router-dom";
-import ContentContainer from "./components/Content/ContentContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import SidebarContainer from "./components/Sidebar/SidebarContainer";
 import {makeStyles} from '@material-ui/core/styles';
+import {Content} from "./components/Content/Content";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,7 +34,7 @@ function App(props) {
             <Router>
                 <HeaderContainer />
                 <SidebarContainer />
-                <ContentContainer />
+                <Content />
             </Router>
         </div>
     );

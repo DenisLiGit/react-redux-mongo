@@ -111,7 +111,7 @@ const CreateCard = (props) => {
                                         className={classes.item}
                                         select
                                     >
-                                        {props.janraOptions.map((option) => (
+                                        {props.genreOptions.map((option) => (
                                             <MenuItem key={option.value} value={option.value}>
                                                 {option.label}
                                             </MenuItem>
