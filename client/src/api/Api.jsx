@@ -129,5 +129,14 @@ export const ApiData = {
             .catch(error => {
                 throw error
             })
+    },
+    getStatisticAction () {
+        return axios.get('/api/statistic')
+            .then(res => {
+                return res.data
+            })
+            .catch(error => {
+                throw error
+            })
     }
 }

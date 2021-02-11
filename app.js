@@ -2,6 +2,7 @@ const setBook = require('./scrap-data/scrap-book')
 const setFilm = require('./scrap-data/scrap-films')
 const setSerial = require('./scrap-data/scrap-serials')
 const setGame = require('./scrap-data/scrap-games')
+const setStatistic = require('./scrap-data/statistic')
 
 const express = require('express')
 const config = require('config')
@@ -20,8 +21,10 @@ app.use('/api/serials', require('./routes/serial.routes'))
 app.use('/api/games', require('./routes/game.routes'))
 app.use('/api/favorites', require('./routes/favorite.routes'))
 app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/api/statistic', require('./routes/statistic.routes'))
 
 cron.schedule("* 6 * * *", () => {
+    setStatistic()
     setBook()
     setFilm()
     setSerial()

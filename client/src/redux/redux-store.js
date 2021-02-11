@@ -9,6 +9,7 @@ import gamesReducer from "./gamesReducer";
 import thunkMiddleware from 'redux-thunk';
 import {reducer as formReducer} from 'redux-form'
 import cardReducer from "./cardReducer";
+import statisticReducer from "./statisticReducer";
 
 let redusers = combineReducers({
     contentReducer,
@@ -19,6 +20,7 @@ let redusers = combineReducers({
     serialsReducer,
     gamesReducer,
     cardReducer,
+    statisticReducer,
     form: formReducer
 })
 

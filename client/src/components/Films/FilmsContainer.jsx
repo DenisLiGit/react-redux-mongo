@@ -4,7 +4,7 @@ import {getFilmThunk} from "../../redux/filmsReducer";
 import AuthRedirect from "../../Hoc/AuthRedirect";
 import {compose} from "redux";
 import {isAuthenticated, loader} from "../../redux/selectors/generalSelectors";
-import {filmsPageNum, getFilms} from "../../redux/selectors/filmsSelectors";
+import {filmsPageNum, getFilms, getFilmsCount} from "../../redux/selectors/filmsSelectors";
 
 const mapStateToProps = (state) => {
     return {
