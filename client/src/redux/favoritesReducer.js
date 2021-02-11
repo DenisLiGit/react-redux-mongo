@@ -10,6 +10,7 @@ const DESCR = 'DESCR'
 const SET_FAVORITES_PAGE = "SET-FAVORITES-PAGE"
 const SET_FAVORITES_TOTAL_PAGE = "SET-FAVORITES-TOTAL-PAGE"
 const UPDATE_FAVORITES = 'UPDATE-FAVORITES'
+const FAV_ERROR_MESSAGE = 'FAV-ERROR-MESSAGE'
 const startPage = 1
 
 const initialState = {
@@ -30,7 +31,8 @@ const initialState = {
     favoritesPageNum: startPage,
     favoritesTotalPages: startPage,
     updateFavorites: false,
-    saveFavorites: true
+    saveFavorites: true,
+    favErrorMessage: false
 }
 
 const favoritesReducer = (store = initialState, action) => {
@@ -119,6 +121,12 @@ const favoritesReducer = (store = initialState, action) => {
                 updateFavorites: action.value
             }
         }
+        case FAV_ERROR_MESSAGE: {
+            return {
+                ...store,
+                favErrorMessage: action.value
+            }
+        }
         default:
             return {...store}
     }
@@ -140,20 +148,27 @@ export const updateFavorites = (value) => ({
     type: UPDATE_FAVORITES, value
 })
 
+export const favErrorMessageAC = (value) => ({
+    type:  FAV_ERROR_MESSAGE, value
+})
+
 export const getFavoriteThunk = (page, userid) => (dispatch) => {
     dispatch(loaderAC(true))
     ApiData.getFavoriteDataAction(page, userid).then(data => {
-        dispatch(actionSetFavorites(data.favorites))
-        dispatch(favoritesTotalPagesAC(data.pageCount))
-        dispatch(loaderAC(false))
-        dispatch(updateFavorites(false))
+        if (!data.message) {
+            dispatch(actionSetFavorites(data.favorites))
+            dispatch(favoritesTotalPagesAC(data.pageCount))
+            dispatch(loaderAC(false))
+            dispatch(updateFavorites(false))
+        }
+        dispatch(favErrorMessageAC(data.message))
     })
 }
 
 export const deleteFavoriteThunk = (id, userId) => (dispatch) => {
     ApiData.deleteFavoriteDataAction(id, userId).then(res => {
         if (res) {
-            dispatch(updateFavorites(true))
+            dispatch(updateFavorites(res))
         }
     })
 }

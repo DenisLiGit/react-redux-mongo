@@ -66,10 +66,6 @@ export const ApiData = {
                 if (res.message) {
                     throw new Error(res.message || 'front error')
                 }
-
-                localStorage.setItem("token", res.data.token)
-                localStorage.setItem("userid", res.data.userId)
-
                 return res.data
             })
             .catch(error => {
@@ -111,10 +107,6 @@ export const ApiData = {
             }
         })
             .then(res => {
-                if (res.message) {
-                    throw new Error(res.message || 'error')
-                }
-
                 return res.data
             })
             .catch(error => {

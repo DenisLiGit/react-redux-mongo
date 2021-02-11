@@ -1,8 +1,13 @@
 import {Favorites} from "./Favorites";
 import {connect} from "react-redux";
-import {getFavoriteThunk, updateFavorites} from "../../redux/favoritesReducer";
+import {getFavoriteThunk} from "../../redux/favoritesReducer";
 import {loader} from "../../redux/selectors/generalSelectors";
-import {favoritesPageNum, getFavorites} from "../../redux/selectors/favoritesSelectors";
+import {
+    favErrorMessage,
+    favoritesPageNum,
+    getFavorites,
+    updateFavorites
+} from "../../redux/selectors/favoritesSelectors";
 import {userId} from "../../redux/selectors/usersSelectors";
 
 const mapStateToProps = (state) => {
@@ -11,6 +16,7 @@ const mapStateToProps = (state) => {
         update: updateFavorites(state),
         userId: userId(state),
         pageNum: favoritesPageNum(state),
+        favErrorMessage: favErrorMessage(state),
         loader: loader(state)
     }
 }

@@ -30,19 +30,18 @@ const userReduser = (store = initialState, action) => {
                 userInfo: {
                     ...store.userInfo,
                     token: action.value.token,
-                    userId: action.value.userid,
+                    userId: action.value.userId,
                     isAuthenticated: !!action.value.token
                 },
 
             }
         case USER_LOGOUT:
-            // localStorage.removeItem(api.storageName)
             return {
                 ...store,
                 userInfo: {
                     ...store.userInfo,
                     token: null,
-                    userid: null,
+                    userId: null,
                     isAuthenticated: false
                 },
             }
@@ -84,12 +83,20 @@ export const userloading = (value) => ({
 export const loginUserThunk = (useInfo) => (dispatch) => {
     dispatch(userloading(true))
     ApiData.loginUserAction(useInfo).then(data => {
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("userid", data.userId)
         dispatch(userLogIn(data))
         dispatch(userloading(false))
        if (data.data){
            dispatch(userMessageAC(data.data.message))
        }
     })
+}
+
+export const logoutUserThunk = () => (dispatch) => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("userid")
+    dispatch(logUserOut())
 }
 
 export const registerUserThunk = (userInfo) => (dispatch) => {

@@ -63,9 +63,12 @@ router.get(
 
         try {
             const userFavorites = await Favorite.findOne({userId})
+            // console.log(userFavorites)
+            if (!userFavorites) {
+                return res.json({'message': 'Добавьте избранные карточки'})
+            }
+
             const reverseFavorites = [...userFavorites.id].reverse()
-
-
             const allFavorites = await Promise.all(
                 reverseFavorites.map(async id => {
                     let filmResponse = await Book.findOne({_id: id}) ||
@@ -78,7 +81,6 @@ router.get(
 
             const pageCount = Math.ceil(allFavorites.length / limit)
             const favorites = allFavorites.slice(startIndex, startIndex + limit)
-
             res.json({favorites, pageCount})
         } catch (e) {
             res.status(500).json({'message': e.message})
