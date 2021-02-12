@@ -1,17 +1,24 @@
 import axios from "axios";
 
-const instance = axios.create({
-    baseURL: '/api',
-    headers: {
-        'x-access-token': localStorage.getItem('token'),
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-});
+// todo придумать как апдейтить токет при закидывании в стореж
+// const instance = axios.create({
+//     baseURL: '/api',
+//     headers: {
+//         'x-access-token': localStorage.getItem('token'),
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json'
+//     }
+// });
 
 export const ApiData = {
-    getBookDataAction (pageNum) {
-        return instance.get(`/books?page=${pageNum}`)
+    getBookDataAction(pageNum) {
+        return axios.get(`/api/books?page=${pageNum}`, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -23,8 +30,14 @@ export const ApiData = {
                 throw error
             })
     },
-    getFilmDataAction (pageNum) {
-        return instance.get(`/films?page=${pageNum}`)
+    getFilmDataAction(pageNum) {
+        return axios.get(`/api/films?page=${pageNum}`, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'front error')
@@ -36,8 +49,14 @@ export const ApiData = {
                 throw error
             })
     },
-    getSerialDataAction (pageNum) {
-        return instance.get(`/serials?page=${pageNum}`)
+    getSerialDataAction(pageNum) {
+        return axios.get(`/api/serials?page=${pageNum}`, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -49,8 +68,14 @@ export const ApiData = {
                 throw error
             })
     },
-    getGameDataAction (pageNum) {
-        return instance.get(`/games?page=${pageNum}`)
+    getGameDataAction(pageNum) {
+        return axios.get(`/api/games?page=${pageNum}`, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -62,9 +87,15 @@ export const ApiData = {
                 throw error
             })
     },
-    loginUserAction (userInfo) {
-        return instance.post(`/auth/login`, {
+    loginUserAction(userInfo) {
+        return axios.post(`/api/auth/login`, {
             body: userInfo
+        }, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
         })
             .then(res => {
                 if (res.message) {
@@ -76,9 +107,15 @@ export const ApiData = {
                 return error.response
             })
     },
-    registerUserAction (userInfo) {
-        return instance.post(`/auth/register`, {
+    registerUserAction(userInfo) {
+        return axios.post(`/api/auth/register`, {
             body: userInfo
+        }, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
         })
             .then(res => {
                 return res
@@ -87,10 +124,16 @@ export const ApiData = {
                 return error.response
             })
     },
-    setFavoriteDataAction (userInfo) {
-        return instance.post(
-            '/favorites/setFavorite', {
+    setFavoriteDataAction(userInfo) {
+        return axios.post(
+            '/api/favorites/setFavorite', {
                 body: userInfo
+            }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('token'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
             })
             .then(res => {
                 if (!res) {
@@ -103,8 +146,13 @@ export const ApiData = {
                 throw error
             })
     },
-    getFavoriteDataAction (pageNum, userid) {
-        return instance.get(`/favorites/getFavorite`, {
+    getFavoriteDataAction(pageNum, userid) {
+        return axios.get(`/api/favorites/getFavorite`, {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             params: {
                 page: pageNum,
                 userid: userid
@@ -117,11 +165,17 @@ export const ApiData = {
                 throw error
             })
     },
-    deleteFavoriteDataAction (itemId, userId) {
-        return instance.post(
-            '/favorites/deleteFavorite', {
+    deleteFavoriteDataAction(itemId, userId) {
+        return axios.post(
+            '/api/favorites/deleteFavorite', {
                 itemId,
                 userId
+            }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('token'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
             })
             .then(res => {
                 if (!res) {
@@ -134,8 +188,14 @@ export const ApiData = {
                 throw error
             })
     },
-    getStatisticAction () {
-        return instance.get('/statistic')
+    getStatisticAction() {
+        return axios.get('/api/statistic', {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
             .then(res => {
                 return res.data
             })
