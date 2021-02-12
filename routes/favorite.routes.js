@@ -5,9 +5,11 @@ const Book = require('../models/Book')
 const Film = require('../models/Film')
 const Game = require('../models/Game')
 const Serial = require('../models/Ser')
+const jwtValidation = require('./../auth/Auth')
 
 router.post(
     '/setFavorite',
+    jwtValidation,
     async (req, res) => {
         const item = req.body.body
 
@@ -31,6 +33,7 @@ router.post(
 
 router.post(
     '/deleteFavorite',
+    jwtValidation,
     async (req, res) => {
         const itemId = req.body.itemId
         const userId = req.body.userId
@@ -55,6 +58,7 @@ router.post(
 
 router.get(
     "/getFavorite",
+    jwtValidation,
     async (req, res) => {
         const page = req.query.page
         const userId = req.query.userid

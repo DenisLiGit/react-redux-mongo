@@ -5,9 +5,11 @@ const Film = require('../models/Film')
 const Game = require('../models/Game')
 const Serial = require('../models/Ser')
 const Statistic = require('../models/Statistic')
+const jwtValidation = require('./../auth/Auth')
 
 router.get(
     '/',
+    jwtValidation,
     async (req, res) => {
         try {
             const booksCount = await Book.find().countDocuments()

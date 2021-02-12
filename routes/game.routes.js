@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Game = require('../models/Game')
+const jwtValidation = require('./../auth/Auth')
 
 router.get(
 '/',
+jwtValidation,
 async (req, res) => {
     const page = req.query.page
     const limitPerPage = 7

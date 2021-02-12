@@ -132,7 +132,7 @@ export const Sidebar = (props) => {
                                 color="primary"
                                 size="small">
                                 <AddCircleOutlineIcon className={classes.buttonIcon}/>
-                                Добавить книгу
+                                Избранное
                             </ColorButton>
                         </NavLink>
                     </Box>

@@ -1,8 +1,17 @@
 import axios from "axios";
 
+const instance = axios.create({
+    baseURL: '/api',
+    headers: {
+        'x-access-token': localStorage.getItem('token'),
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+});
+
 export const ApiData = {
     getBookDataAction (pageNum) {
-        return axios.get(`/api/books?page=${pageNum}`)
+        return instance.get(`/books?page=${pageNum}`)
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -15,7 +24,7 @@ export const ApiData = {
             })
     },
     getFilmDataAction (pageNum) {
-        return axios.get(`/api/films?page=${pageNum}`)
+        return instance.get(`/films?page=${pageNum}`)
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'front error')
@@ -28,7 +37,7 @@ export const ApiData = {
             })
     },
     getSerialDataAction (pageNum) {
-        return axios.get(`/api/serials?page=${pageNum}`)
+        return instance.get(`/serials?page=${pageNum}`)
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -41,7 +50,7 @@ export const ApiData = {
             })
     },
     getGameDataAction (pageNum) {
-        return axios.get(`/api/games?page=${pageNum}`)
+        return instance.get(`/games?page=${pageNum}`)
             .then(res => {
                 if (res.message) {
                     throw new Error(res.message || 'error')
@@ -54,13 +63,8 @@ export const ApiData = {
             })
     },
     loginUserAction (userInfo) {
-        return axios.post(`/api/auth/login`, {
+        return instance.post(`/auth/login`, {
             body: userInfo
-        }, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
         })
             .then(res => {
                 if (res.message) {
@@ -73,7 +77,7 @@ export const ApiData = {
             })
     },
     registerUserAction (userInfo) {
-        return axios.post(`/api/auth/register`, {
+        return instance.post(`/auth/register`, {
             body: userInfo
         })
             .then(res => {
@@ -84,8 +88,8 @@ export const ApiData = {
             })
     },
     setFavoriteDataAction (userInfo) {
-        return axios.post(
-            '/api/favorites/setFavorite', {
+        return instance.post(
+            '/favorites/setFavorite', {
                 body: userInfo
             })
             .then(res => {
@@ -100,7 +104,7 @@ export const ApiData = {
             })
     },
     getFavoriteDataAction (pageNum, userid) {
-        return axios.get(`/api/favorites/getFavorite`, {
+        return instance.get(`/favorites/getFavorite`, {
             params: {
                 page: pageNum,
                 userid: userid
@@ -114,8 +118,8 @@ export const ApiData = {
             })
     },
     deleteFavoriteDataAction (itemId, userId) {
-        return axios.post(
-            '/api/favorites/deleteFavorite', {
+        return instance.post(
+            '/favorites/deleteFavorite', {
                 itemId,
                 userId
             })
@@ -131,7 +135,7 @@ export const ApiData = {
             })
     },
     getStatisticAction () {
-        return axios.get('/api/statistic')
+        return instance.get('/statistic')
             .then(res => {
                 return res.data
             })
