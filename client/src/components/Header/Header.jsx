@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         "&> a": {
             color: 'white',
             textDecoration: 'none'
-        }    ,
+        },
         "&> a:hover, a.active": {
             color: deepOrange[500]
         }
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = (props) => {
+    const {isAuthenticated, logoutUserThunk} = props
     const classes = useStyles()
 
     return (
@@ -78,7 +79,7 @@ export const Header = (props) => {
                         Игры
                     </Button>
                 </NavLink>
-                { props.isAuthenticated && (
+                {isAuthenticated && (
                     <NavLink exact activeClassName="active" to='/favorites'>
                         <Button color="inherit">
                             Избранное
@@ -86,10 +87,18 @@ export const Header = (props) => {
                     </NavLink>
                 )}
 
-                { !props.isAuthenticated && (
+                {!isAuthenticated && (
                     <NavLink exact activeClassName="active" to='/auth'>
                         <Button color="inherit">
                             Авторизация
+                        </Button>
+                    </NavLink>
+                )}
+
+                {isAuthenticated && (
+                    <NavLink to="/auth" onClick={() => logoutUserThunk()}>
+                        <Button color="inherit">
+                            Выход
                         </Button>
                     </NavLink>
                 )}

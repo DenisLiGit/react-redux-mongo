@@ -9,3 +9,7 @@ export const booksPageNum = state => {
 export const booksTotalPages = state => {
     return state.booksReducer.booksTotalPages
 }
+
+export const getBooksCount = state => {
+    return state.booksReducer.booksCount
+}

@@ -7,7 +7,7 @@ const SET_GAME_TOTAL_PAGE = "SET-GAME-TOTAL-PAGE"
 const startPage = 1
 
 const initialState = {
-    games: [ ],
+    games: [],
     gamesPageNum: startPage,
     gamesTotalPages: startPage,
 }
@@ -50,7 +50,8 @@ const gamesReducer = (store = initialState, action) => {
                 ...store,
                 gamesTotalPages: action.value
             }
-        default: return store
+        default:
+            return store
     }
 }
 
@@ -66,13 +67,12 @@ export const gamesTotalPagesAC = (value) => ({
     type: SET_GAME_TOTAL_PAGE, value
 })
 
-export const getGameThunk = (page) => (dispatch) => {
+export const getGameThunk = (page) => async (dispatch) => {
     dispatch(loaderAC(true))
-    ApiData.getGameDataAction(page).then(data => {
-        dispatch(setGameDataAC(data.games))
-        dispatch(gamesTotalPagesAC(data.pageCount))
-        dispatch(loaderAC(false))
-    })
+    const data = await ApiData.getGameDataAction(page)
+    dispatch(setGameDataAC(data.games))
+    dispatch(gamesTotalPagesAC(data.pageCount))
+    dispatch(loaderAC(false))
 }
 
-export default  gamesReducer
+export default gamesReducer

@@ -30,19 +30,18 @@ const userReduser = (store = initialState, action) => {
                 userInfo: {
                     ...store.userInfo,
                     token: action.value.token,
-                    userId: action.value.userid,
+                    userId: action.value.userId,
                     isAuthenticated: !!action.value.token
                 },
 
             }
         case USER_LOGOUT:
-            // localStorage.removeItem(api.storageName)
             return {
                 ...store,
                 userInfo: {
                     ...store.userInfo,
                     token: null,
-                    userid: null,
+                    userId: null,
                     isAuthenticated: false
                 },
             }
@@ -81,22 +80,30 @@ export const userloading = (value) => ({
     type: USER_LOADING, value
 })
 
-export const loginUserThunk = (useInfo) => (dispatch) => {
+export const loginUserThunk = (useInfo) => async (dispatch) => {
     dispatch(userloading(true))
-    ApiData.loginUserAction(useInfo).then(data => {
-        dispatch(userLogIn(data))
-        dispatch(userloading(false))
-       if (data.data){
-           dispatch(userMessageAC(data.data.message))
-       }
-    })
+    const data = await ApiData.loginUserAction(useInfo)
+    localStorage.setItem("token", data.token)
+    localStorage.setItem("userid", data.userId)
+    dispatch(userLogIn(data))
+    dispatch(userloading(false))
+    if (data.data) {
+        dispatch(userMessageAC(data.data.message))
+    }
 }
 
-export const registerUserThunk = (userInfo) => (dispatch) => {
-    ApiData.registerUserAction(userInfo).then(data => {
-        dispatch(userMessageAC(data.data.message))
-        if (data.status === 201) loginUserThunk(userInfo)(dispatch)
-    })
+export const logoutUserThunk = () => (dispatch) => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("userid")
+    dispatch(logUserOut())
+}
+
+export const registerUserThunk = (userInfo) => async (dispatch) => {
+    const data = await ApiData.registerUserAction(userInfo)
+    dispatch(userMessageAC(data.data.message))
+    if (data.status === 201) {
+        loginUserThunk(userInfo)(dispatch)
+    }
 }
 
 export default userReduser

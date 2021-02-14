@@ -57,7 +57,15 @@ const renderTextField = ({label, input, meta: {touched, invalid, error}, ...cust
 
 const CreateCard = (props) => {
     const classes = useStyles()
-    const {handleSubmit, pristine, invalid, submitting} = props
+    const {
+        handleSubmit,
+        pristine,
+        invalid,
+        submitting,
+        cardTypeAC,
+        cardType,
+        genreOptions
+    } = props
 
     return (
         <Card>
@@ -70,7 +78,7 @@ const CreateCard = (props) => {
                             label='Тип'
                             id="standard-select-currency"
                             className={classes.item}
-                            onChange={(e) => props.cardTypeAC(e.target.value)}
+                            onChange={(e) => cardTypeAC(e.target.value)}
                             select
                         >
                             <MenuItem value='book'> Книга </MenuItem>
@@ -80,7 +88,7 @@ const CreateCard = (props) => {
                             ))}
                         </Field>
                     </Grid>
-                    {props.cardType && (
+                    {cardType && (
                         <>
                             <Grid container>
                                 <Grid item xs={4}>
@@ -93,7 +101,7 @@ const CreateCard = (props) => {
                                         className={classes.item}
                                     />
                                 </Grid>
-                                {props.cardType === 'book' && (<Grid item xs={4}>
+                                {cardType === 'book' && (<Grid item xs={4}>
                                     <Field
                                         name='author'
                                         component={renderTextField}
@@ -102,7 +110,7 @@ const CreateCard = (props) => {
                                         className={classes.item}
                                     />
                                 </Grid>)}
-                                {props.cardType !== 'game' && (<Grid item xs={4}>
+                                {cardType !== 'game' && (<Grid item xs={4}>
                                     <Field
                                         name='genre'
                                         component={renderTextField}
@@ -111,14 +119,14 @@ const CreateCard = (props) => {
                                         className={classes.item}
                                         select
                                     >
-                                        {props.genreOptions.map((option) => (
+                                        {genreOptions.map((option) => (
                                             <MenuItem key={option.value} value={option.value}>
                                                 {option.label}
                                             </MenuItem>
                                         ))}
                                     </Field>
                                 </Grid>)}
-                                {props.cardType === 'book' && (<Grid item xs={4}>
+                                {cardType === 'book' && (<Grid item xs={4}>
                                     <Field
                                         name='cycle'
                                         component={renderTextField}
@@ -136,7 +144,7 @@ const CreateCard = (props) => {
                                         className={classes.item}
                                     />
                                 </Grid>
-                                {props.cardType === 'game' && (<Grid item xs={4}>
+                                {cardType === 'game' && (<Grid item xs={4}>
                                     <Field
                                         name='img'
                                         component={renderTextField}

@@ -4,7 +4,12 @@ import InfocardContainer from "../Infocard/InfocardContainer";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Games = (props) => {
-    const {pageNum, getGameThunk, loader, games} = props
+    const {
+        pageNum,
+        getGameThunk,
+        loader,
+        games
+    } = props
     useEffect(() => {
         getGameThunk(pageNum)
     }, [pageNum, getGameThunk])

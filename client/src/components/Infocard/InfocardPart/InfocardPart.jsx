@@ -6,31 +6,32 @@ import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
     root: {
-        "& *" : {
+        "& *": {
             wordBreak: 'break-all'
         }
     },
 });
 
 export const InfocardPart = (props) => {
+    const {data, type} = props
     const classes = useStyles();
     return (
         <Box className={classes.root}>
             <Typography component="span">
-                {props.data.name ? `${props.data.name}: ` : null}
+                {data.name ? `${data.name}: ` : null}
             </Typography>
-            {props.type === 'a' && (
-                <Typography href={props.data.content} target="blank" component={props.type}>
-                    {!props.data.content ? '-' : props.data.content}
+            {type === 'a' && (
+                <Typography href={data.content} target="blank" component={type}>
+                    {!data.content ? '-' : data.content}
                 </Typography>
             )}
-            {props.type === 'span' && (
-                <Typography component={props.type}>
-                    {!props.data.content ? '-' : props.data.content}
+            {type === 'span' && (
+                <Typography component={type}>
+                    {!data.content ? '-' : data.content}
                 </Typography>
             )}
-            {props.type === 'img' && (
-                <Typography component={props.type} src={props.data.content} />
+            {type === 'img' && (
+                <Typography component={type} src={data.content}/>
             )}
         </Box>
     )

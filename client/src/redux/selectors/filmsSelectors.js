@@ -9,3 +9,7 @@ export const filmsPageNum = state => {
 export const filmsTotalPages = state => {
     return state.filmsReducer.filmsTotalPages
 }
+
+export const getFilmsCount = state => {
+    return state.filmsReducer.filmsCount
+}

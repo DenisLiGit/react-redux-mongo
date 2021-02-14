@@ -51,6 +51,14 @@ const useStyles = makeStyles({
 });
 
 export const Infocard = (props) => {
+    const {
+        data,
+        type,
+        userId,
+        setFavoriteThunk,
+        deleteFavoriteThunk,
+        saveFavorites
+    } = props
     const classes = useStyles();
 
     const getColors = (color) => {
@@ -64,46 +72,46 @@ export const Infocard = (props) => {
         }
     }
     const setFavorite = (cardInfo) => {
-        props.setFavoriteThunk(cardInfo)
+        setFavoriteThunk(cardInfo)
     }
 
     const delFavorite = (id, userId) => {
-        props.deleteFavoriteThunk(id, userId)
+        deleteFavoriteThunk(id, userId)
     }
 
     return (
         <Card className={`${classes.root} ${getColors('regular')}`}>
             <CardContent className={classes.content}>
-                <InfocardPart data={props.data.title} type='span'/>
-                { props.data.img && props.data.img.content && (
-                    <InfocardPart data={props.data.img} type='img' />
+                <InfocardPart data={data.title} type='span'/>
+                {data.img && data.img.content && (
+                    <InfocardPart data={data.img} type='img'/>
                 )}
-                { props.data.cycle && props.data.cycle.content && (
-                    <InfocardPart data={props.data.cycle} type='span'/>
+                {data.cycle && data.cycle.content && (
+                    <InfocardPart data={data.cycle} type='span'/>
                 )}
-                { props.data.author && props.data.author.content && (
-                    <InfocardPart data={props.data.author} type='span'/>
+                {data.author && data.author.content && (
+                    <InfocardPart data={data.author} type='span'/>
                 )}
-                { props.data.genre && props.data.genre.content && (
-                    <InfocardPart data={props.data.genre} type='span'/>
+                {data.genre && data.genre.content && (
+                    <InfocardPart data={data.genre} type='span'/>
                 )}
-                { props.data.description && props.data.description.content && (
-                    <InfocardPart data={props.data.description} type='span'/>
+                {data.description && data.description.content && (
+                    <InfocardPart data={data.description} type='span'/>
                 )}
-                <InfocardPart data={props.data.link} type='a'/>
+                <InfocardPart data={data.link} type='a'/>
             </CardContent>
             <CardActions className={classes.actions} disableSpacing={true}>
-                { props.type !== 'favorites' && (
+                {type !== 'favorites' && (
                     <InfocardActionAdd
                         setFavorite={setFavorite}
-                        id={props.data.id}
-                        userId={props.userId}
-                        saveFavorites={props.saveFavorites}/>
+                        id={data.id}
+                        userId={userId}
+                        saveFavorites={saveFavorites}/>
                 )}
 
-                { props.type === 'favorites' && (
-                    <Link onClick={() => delFavorite(props.data.id, props.userId)}>
-                        <Delete />
+                {type === 'favorites' && (
+                    <Link onClick={() => delFavorite(data.id, userId)}>
+                        <Delete/>
                     </Link>
                 )}
 

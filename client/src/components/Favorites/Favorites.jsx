@@ -4,23 +4,34 @@ import {Loader} from "../Loader/Loader";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Favorites = (props) => {
-    const {pageNum, getFavoriteThunk, loader, favorites, userId} = props
+    const {
+        pageNum,
+        getFavoriteThunk,
+        loader,
+        favorites,
+        userId,
+        update,
+        favErrorMessage
+    } = props
     useEffect(() => {
         getFavoriteThunk(pageNum, userId)
-    }, [pageNum, getFavoriteThunk, favorites, userId])
+    }, [pageNum, getFavoriteThunk, userId, update, favErrorMessage])
 
     return (
         <>
-            {loader ?
-                <Loader/>
+            {favErrorMessage ?
+                <h3> {favErrorMessage} </h3>
                 :
-                <>
-                    {favorites ?
-                        favorites.map((item, key) => {
-                            return <InfocardContainer key={key} info={item} type="favorites"/>
-                        }) : null}
-                    <PaginationContainer type="favorites"/>
-                </>
+                loader ?
+                    <Loader/>
+                    :
+                    <>
+                        {favorites ?
+                            favorites.map((item, key) => {
+                                return <InfocardContainer key={key} info={item} type="favorites"/>
+                            }) : null}
+                        <PaginationContainer type="favorites"/>
+                    </>
             }
         </>
     )

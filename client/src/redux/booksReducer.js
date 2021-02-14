@@ -75,13 +75,12 @@ export const booksTotalPagesAC = (value) => ({
     type: SET_BOOK_TOTAL_PAGE, value
 })
 
-export const getBookThunk = (page) => (dispatch) => {
+export const getBookThunk = (page) => async (dispatch) => {
     dispatch(loaderAC(true))
-    ApiData.getBookDataAction(page).then(data => {
-        dispatch(setBookDataAC(data.books))
-        dispatch(booksTotalPagesAC(data.pageCount))
-        dispatch(loaderAC(false))
-    })
+    const data = await ApiData.getBookDataAction(page)
+    dispatch(setBookDataAC(data.books))
+    dispatch(booksTotalPagesAC(data.pageCount))
+    dispatch(loaderAC(false))
 }
 
 export default  booksReducer

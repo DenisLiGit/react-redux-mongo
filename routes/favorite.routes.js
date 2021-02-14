@@ -5,9 +5,11 @@ const Book = require('../models/Book')
 const Film = require('../models/Film')
 const Game = require('../models/Game')
 const Serial = require('../models/Ser')
+const jwtValidation = require('./../auth/Auth')
 
 router.post(
     '/setFavorite',
+    jwtValidation,
     async (req, res) => {
         const item = req.body.body
 
@@ -31,6 +33,7 @@ router.post(
 
 router.post(
     '/deleteFavorite',
+    jwtValidation,
     async (req, res) => {
         const itemId = req.body.itemId
         const userId = req.body.userId
@@ -55,6 +58,7 @@ router.post(
 
 router.get(
     "/getFavorite",
+    jwtValidation,
     async (req, res) => {
         const page = req.query.page
         const userId = req.query.userid
@@ -63,9 +67,11 @@ router.get(
 
         try {
             const userFavorites = await Favorite.findOne({userId})
+            if (!userFavorites || !userFavorites.id.length || null) {
+                return res.json({'message': 'Добавьте избранные карточки'})
+            }
+
             const reverseFavorites = [...userFavorites.id].reverse()
-
-
             const allFavorites = await Promise.all(
                 reverseFavorites.map(async id => {
                     let filmResponse = await Book.findOne({_id: id}) ||
@@ -78,9 +84,9 @@ router.get(
 
             const pageCount = Math.ceil(allFavorites.length / limit)
             const favorites = allFavorites.slice(startIndex, startIndex + limit)
-
             res.json({favorites, pageCount})
         } catch (e) {
+            console.log(e)
             res.status(500).json({'message': e.message})
         }
     })

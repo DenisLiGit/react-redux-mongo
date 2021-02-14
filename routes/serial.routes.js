@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Serial = require('../models/Ser')
+const jwtValidation = require('./../auth/Auth')
 
 router.get(
 '/',
+jwtValidation,
 async (req, res) => {
     const page = parseInt(req.query.page)
     const limitPerPage = 7

@@ -4,7 +4,12 @@ import PaginationContainer from "../Pagination/PaginationContainer";
 import {Loader} from "../Loader/Loader";
 
 export const Books = (props) => {
-    const {pageNum, getBookThunk, loader, books} = props
+    const {
+        pageNum,
+        getBookThunk,
+        loader,
+        books
+    } = props
     useEffect(() => {
         getBookThunk(pageNum)
     }, [pageNum, getBookThunk])

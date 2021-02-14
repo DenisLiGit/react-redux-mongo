@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Film = require('../models/Film')
+const jwtValidation = require('./../auth/Auth')
 
 router.get(
 '/',
+jwtValidation,
 async (req, res) => {
     const page = req.query.page
     const limit = 10

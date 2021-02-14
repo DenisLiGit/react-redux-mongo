@@ -13,3 +13,7 @@ export const updateFavorites = state => {
 export const favoritesTotalPages = state => {
     return state.favoritesReducer.favoritesTotalPages
 }
+
+export const favErrorMessage = state => {
+    return state.favoritesReducer.favErrorMessage
+}

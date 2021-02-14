@@ -1,12 +1,13 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Book = require('../models/Book')
+const Statistic = require('../models/Statistic')
 
 const coreUrl = 'https://www.livelib.ru'
 const urlF1 = 'https://www.livelib.ru/genre/%D0%A4%D0%B0%D0%BD%D1%82%D0%B0%D1%81%D1%82%D0%B8%D0%BA%D0%B0/novelties'
 const urlF2 = 'https://www.livelib.ru/genre/%D0%A4%D1%8D%D0%BD%D1%82%D0%B5%D0%B7%D0%B8/novelties'
 
-const setBook = function() {
+const setBook = function () {
     console.log('book scarp start')
     try {
         const scrapPage = (url) => {
@@ -38,15 +39,18 @@ const setBook = function() {
 
         scrapPage(urlF1)
         scrapPage(urlF2)
-    } catch (e) {  }
+    } catch (e) {
+    }
 
     const setBooks = async (data) => {
         try {
+            let recent = 0
             data.map(async (item) => {
                 let candidateUpdate = false
 
                 try {
                     const candidate = await Book.findOne({title: item.title})
+
                     if (candidate) {
                         if (candidate.description !== item.description) {
                             candidate.description = item.description
@@ -62,6 +66,7 @@ const setBook = function() {
                     if (candidateUpdate) {
                         candidate.save()
                     } else {
+                        recent++
                         const book = new Book(item)
                         await book.save()
                     }
@@ -70,7 +75,11 @@ const setBook = function() {
                     console.log('error', e)
                 }
             })
-        } catch (e) { }
+            const stat = await Statistic.findOne({id: 1})
+            stat.recentBook += recent
+            await stat.save()
+        } catch (e) {
+        }
     }
 }
 

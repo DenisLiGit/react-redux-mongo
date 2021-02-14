@@ -1,11 +1,12 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const Serial = require('../models/Ser')
+const Statistic = require('../models/Statistic')
 
 const coreUrl = 'https://kino.mail.ru/'
 const url = 'https://kino.mail.ru/series/total/?genre_id=149&genre_id=150&genre_id=157&genre_id=147&genre_id=148&order=newest&year=2020&year=2021'
 
-const setSerial = function() {
+const setSerial = function () {
     console.log('serial scrap start')
     try {
         axios.get(url)
@@ -35,6 +36,8 @@ const setSerial = function() {
 
     const setSerial = async (data) => {
         try {
+            let recent = 0
+
             data.map(async (item) => {
                 let candidateUpdate = false
 
@@ -58,6 +61,7 @@ const setSerial = function() {
                     if (candidateUpdate) {
                         candidate.save()
                     } else {
+                        recent++
                         const serial = new Serial(item)
                         serial.save()
                     }
@@ -65,6 +69,10 @@ const setSerial = function() {
                     console.log('error', e)
                 }
             })
+
+            const stat = await Statistic.findOne({id: 1})
+            stat.recentSerial += recent
+            await stat.save()
         } catch (e) {
             console.log('error', e)
         }

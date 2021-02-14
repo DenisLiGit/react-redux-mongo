@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
@@ -53,8 +53,20 @@ const useStyles = makeStyles((theme) => ({
 
 export const Sidebar = (props) => {
     const classes = useStyles();
+    const {
+        getStatisticThunk,
+        booksStat,
+        booksRecentStat,
+        filmsStat,
+        filmsRecentStat,
+        serialsStat,
+        serialsRecentStat,
+        gamesStat,
+        gamesRecentStat,
+        isAuthenticated
+    } = props
 
-    const subscribePush = () => {
+    const subscribePush = (props) => {
         if (!('serviceWorker' in navigator)) {
             // Браузер не поддерживает сервис-воркеры.
             return;
@@ -64,6 +76,10 @@ export const Sidebar = (props) => {
             return;
         }
     }
+
+    useEffect(() => {
+        getStatisticThunk()
+    }, [getStatisticThunk])
 
     return (
         <div className={classes.root}>
@@ -76,7 +92,7 @@ export const Sidebar = (props) => {
                     <MenuBookIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    30 (4)
+                    {booksStat} ({booksRecentStat})
                 </Typography>
             </Box>
             <Divider/>
@@ -85,7 +101,7 @@ export const Sidebar = (props) => {
                     <PlayCircleOutlineIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    45 (3)
+                    {filmsStat} ({filmsRecentStat})
                 </Typography>
             </Box>
             <Divider/>
@@ -94,7 +110,7 @@ export const Sidebar = (props) => {
                     <SkipNextIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    3 (1)
+                    {serialsStat} ({serialsRecentStat})
                 </Typography>
             </Box>
             <Divider/>
@@ -103,11 +119,11 @@ export const Sidebar = (props) => {
                     <SportsEsportsIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    77 (0)
+                    {gamesStat} ({gamesRecentStat})
                 </Typography>
             </Box>
             <Divider/>
-            {props.isAuthenticated && (
+            {isAuthenticated && (
                 <>
                     <Box className={classes.wrap}>
                         <ColorButton
@@ -127,7 +143,7 @@ export const Sidebar = (props) => {
                                 color="primary"
                                 size="small">
                                 <AddCircleOutlineIcon className={classes.buttonIcon}/>
-                                Добавить книгу
+                                Избранное
                             </ColorButton>
                         </NavLink>
                     </Box>

@@ -20,17 +20,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PaginationWrap(props) {
+    const {getPage, setPage, getPageType, getTotalPages} = props
     const classes = useStyles();
-    const [page, setPage] = React.useState(props.getPage());
+    const [pageNum, setPageNum] = React.useState(getPage());
 
     const handleChange = (event, value) => {
-        props.setPage(props.getPageType(), value)
-        setPage(value);
+        setPage(getPageType(), value)
+        setPageNum(value);
     };
 
     return (
         <div className={classes.root}>
-            <Pagination count={props.getTotalPages()} page={page} onChange={handleChange}/>
+            <Pagination count={getTotalPages()} page={pageNum} onChange={handleChange}/>
         </div>
     );
 }

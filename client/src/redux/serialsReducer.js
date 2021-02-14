@@ -63,13 +63,12 @@ export const serialsTotalPagesAC = (value) => ({
     type: SET_SERIAL_TOTAL_PAGE, value
 })
 
-export const getSerialThunk = (page) => (dispatch) => {
+export const getSerialThunk = (page) => async (dispatch) => {
     dispatch(loaderAC(true))
-    ApiData.getSerialDataAction(page).then(data => {
-        dispatch(setSerialDataAC(data.serials))
-        dispatch(serialsTotalPagesAC(data.pageCount))
-        dispatch(loaderAC(false))
-    })
+    const data = await ApiData.getSerialDataAction(page)
+    dispatch(setSerialDataAC(data.serials))
+    dispatch(serialsTotalPagesAC(data.pageCount))
+    dispatch(loaderAC(false))
 }
 
 export default  serialsReducer

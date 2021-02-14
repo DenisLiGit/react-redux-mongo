@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect} from 'react'
 
 import {BrowserRouter as Router} from "react-router-dom";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -22,12 +22,12 @@ function App(props) {
     const classes = useStyles()
     const logUserIn = props.userLogIn
 
-    useState(() => {
+    useEffect(() => {
         logUserIn({
             "token": localStorage.getItem("token"),
             "userid": localStorage.getItem("userid")
         })
-    }, [])
+    }, [logUserIn])
 
     return (
         <div className={classes.root}>

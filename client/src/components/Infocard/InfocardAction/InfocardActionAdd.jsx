@@ -4,6 +4,7 @@ import Star from "@material-ui/icons/Star";
 import Tooltip from "@material-ui/core/Tooltip";
 
 export const InfocardActionAdd = props => {
+    const {setFavorite, id, userId} = props
     const [save, setSave] = useState(false)
 
     return (
@@ -13,9 +14,9 @@ export const InfocardActionAdd = props => {
                 setTimeout(() => {
                     setSave(false)
                 }, 500)
-                props.setFavorite({id: props.id, userId: props.userId})
+                setFavorite({id, userId})
             }}>
-                <Star />
+                <Star/>
             </Link>
         </Tooltip>
     )
