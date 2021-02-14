@@ -53,7 +53,18 @@ const useStyles = makeStyles((theme) => ({
 
 export const Sidebar = (props) => {
     const classes = useStyles();
-    const {getStatisticThunk} = props
+    const {
+        getStatisticThunk,
+        booksStat,
+        booksRecentStat,
+        filmsStat,
+        filmsRecentStat,
+        serialsStat,
+        serialsRecentStat,
+        gamesStat,
+        gamesRecentStat,
+        isAuthenticated
+    } = props
 
     const subscribePush = (props) => {
         if (!('serviceWorker' in navigator)) {
@@ -81,7 +92,7 @@ export const Sidebar = (props) => {
                     <MenuBookIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    {props.booksStat} ({props.booksRecentStat})
+                    {booksStat} ({booksRecentStat})
                 </Typography>
             </Box>
             <Divider/>
@@ -90,7 +101,7 @@ export const Sidebar = (props) => {
                     <PlayCircleOutlineIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    {props.filmsStat} ({props.filmsRecentStat})
+                    {filmsStat} ({filmsRecentStat})
                 </Typography>
             </Box>
             <Divider/>
@@ -99,7 +110,7 @@ export const Sidebar = (props) => {
                     <SkipNextIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    {props.serialsStat} ({props.serialsRecentStat})
+                    {serialsStat} ({serialsRecentStat})
                 </Typography>
             </Box>
             <Divider/>
@@ -108,11 +119,11 @@ export const Sidebar = (props) => {
                     <SportsEsportsIcon/>
                 </Box>
                 <Typography component="span" className={classes.iconWrap}>
-                    {props.gamesStat} ({props.gamesRecentStat})
+                    {gamesStat} ({gamesRecentStat})
                 </Typography>
             </Box>
             <Divider/>
-            {props.isAuthenticated && (
+            {isAuthenticated && (
                 <>
                     <Box className={classes.wrap}>
                         <ColorButton

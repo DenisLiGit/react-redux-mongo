@@ -4,10 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
     "server": "nodemon app.js",
+    "client:install": "npm install --prefix client",
+    "client:build": "npm run build --prefix client",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "cross-env NODE_ENV=dev concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0-rc.5",
     "config": "^3.3.3",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.9.0",
     "jsonwebtoken": "^8.5.1",

@@ -8,6 +8,7 @@ const express = require('express')
 const config = require('config')
 const mongoose = require('mongoose')
 const cron = require("node-cron")
+const path = require("path")
 
 const app = express()
 
@@ -22,6 +23,14 @@ app.use('/api/games', require('./routes/game.routes'))
 app.use('/api/favorites', require('./routes/favorite.routes'))
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/statistic', require('./routes/statistic.routes'))
+
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static(path.join(__dirname, 'client', 'build')))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 cron.schedule("* 6 * * *", () => {
     setStatistic()

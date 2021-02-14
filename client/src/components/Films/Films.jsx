@@ -4,7 +4,12 @@ import PaginationContainer from "../Pagination/PaginationContainer";
 import {Loader} from "../Loader/Loader";
 
 export const Films = (props) => {
-    const {pageNum, getFilmThunk, loader, films} = props
+    const {
+        pageNum,
+        getFilmThunk,
+        loader,
+        films
+    } = props
     useEffect(() => {
         getFilmThunk(pageNum)
     }, [pageNum, getFilmThunk])

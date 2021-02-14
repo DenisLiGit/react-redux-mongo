@@ -4,7 +4,15 @@ import {Loader} from "../Loader/Loader";
 import PaginationContainer from "../Pagination/PaginationContainer";
 
 export const Favorites = (props) => {
-    const {pageNum, getFavoriteThunk, loader, favorites, userId, update, favErrorMessage} = props
+    const {
+        pageNum,
+        getFavoriteThunk,
+        loader,
+        favorites,
+        userId,
+        update,
+        favErrorMessage
+    } = props
     useEffect(() => {
         getFavoriteThunk(pageNum, userId)
     }, [pageNum, getFavoriteThunk, userId, update, favErrorMessage])

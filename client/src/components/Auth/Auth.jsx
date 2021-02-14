@@ -59,7 +59,14 @@ const MinLength5 = MinLength(5)
 
 const Auth = (props) => {
     const classes = useStyles();
-    const {handleSubmit, pristine, invalid, submitting} = props
+    const {
+        handleSubmit,
+        pristine,
+        invalid,
+        submitting,
+        userRegisterAC,
+        userMessage
+    } = props
 
     return (
         <Card>
@@ -92,7 +99,7 @@ const Auth = (props) => {
                                 variant="contained"
                                 color="primary"
                                 type="submit"
-                                onClick={() => props.userRegisterAC(false)}
+                                onClick={() => userRegisterAC(false)}
                                 disabled={pristine || invalid || submitting}
                                 size="small">
                                 Вход
@@ -102,14 +109,14 @@ const Auth = (props) => {
                                 variant="contained"
                                 color="primary"
                                 type="submit"
-                                onClick={() => props.userRegisterAC(true)}
+                                onClick={() => userRegisterAC(true)}
                                 disabled={pristine || invalid || submitting}
                                 size="small">
                                 Регистрация
                             </ColorButton>
                         </Grid>
                     </Grid>
-                    <span className={classes.errorMessage}>{props.userMessage}</span>
+                    <span className={classes.errorMessage}>{userMessage}</span>
                 </form>
             </CardContent>
         </Card>
@@ -123,7 +130,7 @@ const AuthForm = reduxForm({
 
 const AuthBox = props => {
     const submit = (formData) => {
-        if(props.userRegister) {
+        if (props.userRegister) {
             props.registerUserThunk(formData)
         } else {
             props.loginUserThunk(formData)
