@@ -67,8 +67,7 @@ router.get(
 
         try {
             const userFavorites = await Favorite.findOne({userId})
-            // console.log(userFavorites)
-            if (!userFavorites) {
+            if (!userFavorites || !userFavorites.id.length || null) {
                 return res.json({'message': 'Добавьте избранные карточки'})
             }
 
@@ -87,6 +86,7 @@ router.get(
             const favorites = allFavorites.slice(startIndex, startIndex + limit)
             res.json({favorites, pageCount})
         } catch (e) {
+            console.log(e)
             res.status(500).json({'message': e.message})
         }
     })

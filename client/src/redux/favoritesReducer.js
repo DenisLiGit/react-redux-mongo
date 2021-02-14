@@ -152,25 +152,23 @@ export const favErrorMessageAC = (value) => ({
     type:  FAV_ERROR_MESSAGE, value
 })
 
-export const getFavoriteThunk = (page, userid) => (dispatch) => {
+export const getFavoriteThunk = (page, userid) => async (dispatch) => {
     dispatch(loaderAC(true))
-    ApiData.getFavoriteDataAction(page, userid).then(data => {
-        if (!data.message) {
-            dispatch(actionSetFavorites(data.favorites))
-            dispatch(favoritesTotalPagesAC(data.pageCount))
-            dispatch(loaderAC(false))
-            dispatch(updateFavorites(false))
-        }
-        dispatch(favErrorMessageAC(data.message))
-    })
+    const data = await ApiData.getFavoriteDataAction(page, userid)
+    if (!data.message) {
+        dispatch(actionSetFavorites(data.favorites))
+        dispatch(favoritesTotalPagesAC(data.pageCount))
+        dispatch(loaderAC(false))
+        dispatch(updateFavorites(false))
+    }
+    dispatch(favErrorMessageAC(data.message))
 }
 
 export const deleteFavoriteThunk = (id, userId) => (dispatch) => {
-    ApiData.deleteFavoriteDataAction(id, userId).then(res => {
-        if (res) {
-            dispatch(updateFavorites(res))
-        }
-    })
+    const data = ApiData.deleteFavoriteDataAction(id, userId)
+    if (data) {
+        dispatch(updateFavorites(data))
+    }
 }
 
 export const setFavoriteThunk = (cardInfo) => (dispatch) => {

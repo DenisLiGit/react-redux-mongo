@@ -90,17 +90,16 @@ export const setGameRecentStatAC = (value) => ({
     type: SET_GAME_RECENT_STAT, value
 })
 
-export const getStatisticThunk = () => (dispatch) => {
-    ApiData.getStatisticAction().then(data => {
-        dispatch(setBookStatAC(data.booksCount))
-        dispatch(setFilmStatAC(data.filmsCount))
-        dispatch(setSerialStatAC(data.serialsCount))
-        dispatch(setGameStatAC(data.gamesCount))
-        dispatch(setBookRecentStatAC(data.recent.recentBook))
-        dispatch(setFilmRecentStatAC(data.recent.recentFilm))
-        dispatch(setSerialRecentStatAC(data.recent.recentSerial))
-        dispatch(setGameRecentStatAC(data.recent.recentGame))
-    })
+export const getStatisticThunk = () => async (dispatch) => {
+    const data = await ApiData.getStatisticAction()
+    dispatch(setBookStatAC(data.booksCount))
+    dispatch(setFilmStatAC(data.filmsCount))
+    dispatch(setSerialStatAC(data.serialsCount))
+    dispatch(setGameStatAC(data.gamesCount))
+    dispatch(setBookRecentStatAC(data.recent.recentBook))
+    dispatch(setFilmRecentStatAC(data.recent.recentFilm))
+    dispatch(setSerialRecentStatAC(data.recent.recentSerial))
+    dispatch(setGameRecentStatAC(data.recent.recentGame))
 }
 
 export default statisticReducer

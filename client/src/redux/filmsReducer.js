@@ -67,13 +67,12 @@ export const filmsTotalPagesAC = (value) => ({
     type: SET_FILM_TOTAL_PAGE, value
 })
 
-export const getFilmThunk = (page) => (dispatch) => {
+export const getFilmThunk = (page) => async (dispatch) => {
     dispatch(loaderAC(true))
-    ApiData.getFilmDataAction(page).then(data => {
-        dispatch(setFilmDataAC(data.films))
-        dispatch(filmsTotalPagesAC(data.pageCount))
-        dispatch(loaderAC(false))
-    })
+    const data = await ApiData.getFilmDataAction(page)
+    dispatch(setFilmDataAC(data.films))
+    dispatch(filmsTotalPagesAC(data.pageCount))
+    dispatch(loaderAC(false))
 }
 
 export default  filmsReducer

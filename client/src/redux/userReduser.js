@@ -80,17 +80,16 @@ export const userloading = (value) => ({
     type: USER_LOADING, value
 })
 
-export const loginUserThunk = (useInfo) => (dispatch) => {
+export const loginUserThunk = (useInfo) => async (dispatch) => {
     dispatch(userloading(true))
-    ApiData.loginUserAction(useInfo).then(data => {
-        localStorage.setItem("token", data.token)
-        localStorage.setItem("userid", data.userId)
-        dispatch(userLogIn(data))
-        dispatch(userloading(false))
-       if (data.data){
-           dispatch(userMessageAC(data.data.message))
-       }
-    })
+    const data = await ApiData.loginUserAction(useInfo)
+    localStorage.setItem("token", data.token)
+    localStorage.setItem("userid", data.userId)
+    dispatch(userLogIn(data))
+    dispatch(userloading(false))
+    if (data.data) {
+        dispatch(userMessageAC(data.data.message))
+    }
 }
 
 export const logoutUserThunk = () => (dispatch) => {
@@ -99,11 +98,12 @@ export const logoutUserThunk = () => (dispatch) => {
     dispatch(logUserOut())
 }
 
-export const registerUserThunk = (userInfo) => (dispatch) => {
-    ApiData.registerUserAction(userInfo).then(data => {
-        dispatch(userMessageAC(data.data.message))
-        if (data.status === 201) loginUserThunk(userInfo)(dispatch)
-    })
+export const registerUserThunk = (userInfo) => async (dispatch) => {
+    const data = await ApiData.registerUserAction(userInfo)
+    dispatch(userMessageAC(data.data.message))
+    if (data.status === 201) {
+        loginUserThunk(userInfo)(dispatch)
+    }
 }
 
 export default userReduser
