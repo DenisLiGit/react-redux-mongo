@@ -13,6 +13,7 @@ const app = express()
 
 const PORT = process.env.PORT || 5000;
 // const PORT = config.get('port') || 5000
+app.set("port", PORT)
 
 app.use(express.json({extended: true}))
 
