@@ -9,7 +9,6 @@ import FilmsContainer from "../Films/FilmsContainer";
 import FavoritesContainer from "../Favorites/FavoritesContainer";
 import SerialContaimer from "../Serials/SerialsContainer";
 import GameContaimer from "../Games/GamesContainer";
-import {Main} from "../Main/Main";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -28,7 +27,7 @@ export const Content = () => {
 
             <Switch>
                 <Route exact path='/'>
-                    <Main />
+                    <BooksContainer />
                 </Route>
                 <Route exact path='/books'>
                     <BooksContainer />

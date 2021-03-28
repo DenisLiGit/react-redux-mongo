@@ -54,12 +54,7 @@ export const Header = (props) => {
                 </NavLink>
             </Box>
             <Box className={classes.wrap}>
-                <NavLink exact activeClassName="active" to='/'>
-                    <Button color="inherit">
-                        Главная
-                    </Button>
-                </NavLink>
-                <NavLink exact activeClassName="active" to='/books'>
+               <NavLink exact activeClassName="active" to='/books'>
                     <Button color="inherit">
                         Книги
                     </Button>
